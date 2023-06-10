@@ -11,6 +11,12 @@ void Game::run()
 
     bool showSettings = false;
 
+    World world(b2Vec2(0, 1));
+    if (!world.loadAssets())
+        return;
+    world.setup();
+    window.setView(world.getView());
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -23,16 +29,23 @@ void Game::run()
 
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Enter)
                 showSettings = !showSettings;
+            else if (event.type == sf::Event::KeyPressed)
+            {                   
+            }
         }
 
         ImGui::SFML::Update(window, delta.restart());
 
+
         if (showSettings)
             Settings::settings(showSettings);
+        
+
+        world.getWorld()->Step(1.0 / 60.0, 8, 3);
 
         window.clear();
 
-        Renderer::draw(window);
+        Renderer::draw(window, world.getBackgrounds());
 
         ImGui::SFML::Render(window);
 

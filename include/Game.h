@@ -5,6 +5,8 @@
 
 #include "Renderer.h"
 #include "Settings.h"
+#include "World.h"
+
 
 class Game
 {
