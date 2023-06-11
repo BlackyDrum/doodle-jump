@@ -6,7 +6,9 @@
 #include "Renderer.h"
 #include "Settings.h"
 #include "World.h"
-
+#include "Player.h"
+#include "Platform.h"
+#include "Collision.h"
 
 class Game
 {

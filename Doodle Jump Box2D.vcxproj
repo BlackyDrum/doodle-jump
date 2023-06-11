@@ -24,8 +24,11 @@
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\Collision.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Platform.cpp" />
+    <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Settings.cpp" />
     <ClCompile Include="src\World.cpp" />
@@ -40,8 +43,11 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="include\Collision.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\Globals.h" />
+    <ClInclude Include="include\Platform.h" />
+    <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\Renderer.h" />
     <ClInclude Include="include\Settings.h" />
     <ClInclude Include="include\World.h" />

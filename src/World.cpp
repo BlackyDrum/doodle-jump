@@ -2,7 +2,6 @@
 
 World::World(b2Vec2 gravity)
 {
-	m_gravity = gravity;
 	m_world = new b2World(gravity);
 }
 

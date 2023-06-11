@@ -25,8 +25,6 @@ private:
 
 	sf::View m_view;
 
-	b2Vec2 m_gravity;
-
 	b2World* m_world;
 };
 

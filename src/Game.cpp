@@ -11,11 +11,21 @@ void Game::run()
 
     bool showSettings = false;
 
-    World world(b2Vec2(0, 1));
+    World world(b2Vec2(0, 0.2));
     if (!world.loadAssets())
         return;
     world.setup();
     window.setView(world.getView());
+
+    Player player;
+    if (!player.loadAssets())
+        return;
+    player.setup(world.getWorld(), sf::Vector2f(100,100));
+
+    Platform platform;
+    if (!platform.loadAssets())
+        return;
+    platform.setup(world.getWorld(), sf::Vector2f(100, 400));
 
     while (window.isOpen())
     {
@@ -36,16 +46,20 @@ void Game::run()
 
         ImGui::SFML::Update(window, delta.restart());
 
+        player.update();
+        player.move(10);
+
+        Collision::checkCollision(player, platform, 40000);     
 
         if (showSettings)
             Settings::settings(showSettings);
-        
 
+        
         world.getWorld()->Step(1.0 / 60.0, 8, 3);
 
         window.clear();
 
-        Renderer::draw(window, world.getBackgrounds());
+        Renderer::draw(window, world.getBackgrounds(), player.getPlayer(), platform.getPlatform());
 
         ImGui::SFML::Render(window);
 
