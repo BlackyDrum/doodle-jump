@@ -2,7 +2,7 @@
 
 void Game::run()
 {
-    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Doodle Jump!");
+    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Doodle Jump!", sf::Style::Close);
     window.setFramerateLimit(60);
 
     srand(time(NULL));
