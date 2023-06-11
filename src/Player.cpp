@@ -10,46 +10,56 @@ bool Player::loadAssets()
 	return true;
 }
 
-void Player::setup(b2World* world, sf::Vector2f position)
+void Player::setup(sf::Vector2f position)
 {
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(position.x, position.y);
-	bodyDef.fixedRotation = true;
-	m_body = world->CreateBody(&bodyDef);
-
-	b2PolygonShape polygonShape;
-	polygonShape.SetAsBox(m_playerTexture.getSize().x / 2, m_playerTexture.getSize().y / 2);
-
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &polygonShape;
-	fixtureDef.density = 1.0;
-	fixtureDef.friction = 0.5;
-	fixtureDef.restitution = 0.0;
-
-	m_body->CreateFixture(&fixtureDef);
-	m_body->SetLinearDamping(0.02);
-
-	m_player.setOrigin(m_playerTexture.getSize().x / 2, m_playerTexture.getSize().y / 2);
 	m_player.setPosition(position);
+	m_boundingBox.setPosition(position);
+	m_boundingBox.setSize(sf::Vector2f(m_player.getTextureRect().width / 2, m_player.getTextureRect().height / 8));
 }
 
 void Player::update()
 {
-	b2Vec2 position = m_body->GetPosition();
-	m_player.setPosition(position.x, position.y);
-	m_player.setRotation(m_body->GetAngle() * 180 / b2_pi);
+	if (m_velocityUp <= 0)
+	{
+		m_isFalling = true;
+		m_isJumping = false;
+
+		m_velocityUp = c_velocityUp;
+		m_velocityDown = 0;
+	}
+
+	m_boundingBox.setPosition(m_player.getPosition().x + m_player.getTextureRect().width / 6, m_player.getPosition().y + m_player.getTextureRect().height);
 }
 
-void Player::jump(float velocity)
+bool Player::jump(float velocity)
 {
-	m_body->ApplyLinearImpulse(b2Vec2(0,-velocity), m_body->GetWorldCenter(), true);
+	if (m_isJumping)
+	{
+		m_player.setPosition(m_player.getPosition().x, m_player.getPosition().y - m_velocityUp);
+		m_velocityUp -= velocity;
+		std::cout << m_player.getPosition().y << std::endl;
+		if (m_player.getPosition().y < m_highestPosition)
+			m_highestPosition = m_player.getPosition().y;
+
+		return true;
+	}
+
+	return false;
+}
+
+void Player::gravity(float velocity)
+{
+	if (m_isFalling)
+	{
+		m_player.setPosition(m_player.getPosition().x, m_player.getPosition().y + m_velocityDown);
+		m_velocityDown += velocity;
+	}
 }
 
 void Player::move(float velocity)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		m_body->ApplyLinearImpulse(b2Vec2(-velocity, 0), m_body->GetWorldCenter(), true);
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		m_body->ApplyLinearImpulse(b2Vec2(velocity, 0), m_body->GetWorldCenter(), true);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+		m_player.setPosition(m_player.getPosition().x - velocity, m_player.getPosition().y);
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+		m_player.setPosition(m_player.getPosition().x + velocity, m_player.getPosition().y);
 }

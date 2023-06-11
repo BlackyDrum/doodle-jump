@@ -1,8 +1,6 @@
 #ifndef _GLOBALS_H_
 #define _GLOBALS_H_
 
-#include <box2d/box2d.h>
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 

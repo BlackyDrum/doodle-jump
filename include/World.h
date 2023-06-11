@@ -3,10 +3,13 @@
 
 #include "Globals.h"
 
+#include "Platform.h"
+#include "Player.h"
+
 class World
 {
 public:
-	World(b2Vec2 gravity);
+	World();
 
 	~World();
 
@@ -14,18 +17,26 @@ public:
 
 	void setup();
 
-	void moveView(sf::RenderWindow&, sf::Sprite);
+	void moveBackground();
+
+	void updateView(sf::RenderWindow&, Player&);
+
+	void update(sf::Sprite);
 
 	std::pair<sf::Sprite, sf::Sprite> getBackgrounds() const { return m_backgrounds; }
 	sf::View getView() const { return m_view; }
-	b2World* getWorld() const { return m_world; }
+	std::vector<Platform*> getPlatforms() const { return m_platforms; }
+
+	void setView(sf::View view) { m_view = view; }
 private:
 	sf::Texture m_backgroundTexture;
 	std::pair<sf::Sprite, sf::Sprite> m_backgrounds;
 
 	sf::View m_view;
 
-	b2World* m_world;
+	std::vector<Platform*> m_platforms;
+
+	float m_highestPlatformPosition;
 };
 
 #endif
