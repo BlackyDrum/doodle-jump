@@ -15,6 +15,6 @@
 #include <math.h>
 #include <memory>
 
-const unsigned int SCREEN_WIDTH = 540, SCREEN_HEIGHT = 960;
+const unsigned int SCREEN_WIDTH = 540, SCREEN_HEIGHT = 860;
 
 #endif

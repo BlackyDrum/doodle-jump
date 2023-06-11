@@ -11,7 +11,7 @@ void Game::run()
     sf::Clock delta;
 
     bool showSettings = false;
-    float moveSpeed = 5, gravityForce = 0.6, jumpForce = 20.0;
+    float moveSpeed = 6, gravityForce = 0.6, jumpForce = 20.0;
 
     World world;
     if (!world.loadAssets())
