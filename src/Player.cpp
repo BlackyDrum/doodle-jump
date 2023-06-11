@@ -2,10 +2,11 @@
 
 bool Player::loadAssets()
 {
-	if (!m_playerTexture.loadFromFile("assets/textures/blue-lik-puca.png"))
+	if (!m_playerTextureUp.loadFromFile("assets/textures/blue-lik-puca.png") || !m_playerTextureLeft.loadFromFile("assets/textures/blue-lik-left.png") ||
+		!m_playerTextureRight.loadFromFile("assets/textures/blue-lik-right.png"))
 		return false;
 
-	m_player.setTexture(m_playerTexture);
+	m_player.setTexture(m_playerTextureLeft);
 
 	return true;
 }
@@ -64,7 +65,15 @@ void Player::gravity(float velocity)
 void Player::move(float velocity)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+	{
 		m_player.setPosition(m_player.getPosition().x - velocity, m_player.getPosition().y);
+		m_player.setTexture(m_playerTextureLeft);
+	}
+		
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+	{
 		m_player.setPosition(m_player.getPosition().x + velocity, m_player.getPosition().y);
+		m_player.setTexture(m_playerTextureRight);
+	}
+		
 }

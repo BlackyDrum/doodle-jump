@@ -32,7 +32,7 @@ public:
 	void setIsFalling(bool falling) { m_isFalling = falling; }
 	void setIsJumping(bool jumping) { m_isJumping = jumping; }
 private:
-	sf::Texture m_playerTexture;
+	sf::Texture m_playerTextureUp, m_playerTextureLeft, m_playerTextureRight;
 	sf::Sprite m_player;
 
 	sf::RectangleShape m_boundingBox;
