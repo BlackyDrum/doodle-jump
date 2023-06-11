@@ -2,18 +2,24 @@
 
 World::World()
 {
+	m_platformTexture.loadFromFile("assets/textures/game-tiles.png");
+
+	m_platformGap = 100;
+
 	for (int i = 0; i < 20; i++)
 	{
 		float x = rand() % SCREEN_WIDTH;
 
 		Platform* p = new Platform;
-		p->loadAssets();
-		p->setup(sf::Vector2f(x, -i * 50 + 200));
+		p->getPlatform().setTexture(m_platformTexture);
+		p->getPlatform().setTextureRect(sf::IntRect(0, 0, 58, 16));
+		p->setup(sf::Vector2f(x, -i * m_platformGap + 200));
 
-		m_highestPlatformPosition = -i * 50 + 200;
+		m_highestPlatformPosition = -i * m_platformGap + 200;
 
 		m_platforms.push_back(p);
 	}
+
 }
 
 World::~World()
@@ -57,7 +63,7 @@ void World::moveBackground()
 void World::updateView(sf::RenderWindow& window, Player& player)
 {
 	sf::View v = window.getView();
-	v.move(0, -player.getVelocityUp());
+	v.setCenter(SCREEN_WIDTH / 2, player.getPlayer().getPosition().y);
 
 	float y = player.getPlayer().getPosition().y;
 
@@ -71,11 +77,25 @@ void World::update(sf::Sprite player)
 {
 	for (int i = 0; i < m_platforms.size(); i++)
 	{
-		if (player.getPosition().y < m_platforms[i]->getPlatform().getPosition().y - SCREEN_HEIGHT / 2)
+		if (player.getPosition().y < m_platforms[i]->getPlatform().getPosition().y - SCREEN_HEIGHT / 1.5)
 		{
 			delete m_platforms[i];
 			m_platforms.erase(m_platforms.begin() + i);
 		}
 	}
+
+	if (player.getPosition().y - SCREEN_HEIGHT / 2 < m_highestPlatformPosition)
+	{
+		float x = rand() % SCREEN_WIDTH;
+
+		Platform* p = new Platform;
+		p->loadAssets();
+		p->setup(sf::Vector2f(x, m_highestPlatformPosition - m_platformGap));
+
+		m_highestPlatformPosition = m_highestPlatformPosition - m_platformGap;
+
+		m_platforms.push_back(p);
+	}
+		
 		
 }

@@ -29,7 +29,7 @@ public:
 
 	void setView(sf::View view) { m_view = view; }
 private:
-	sf::Texture m_backgroundTexture;
+	sf::Texture m_backgroundTexture, m_platformTexture;
 	std::pair<sf::Sprite, sf::Sprite> m_backgrounds;
 
 	sf::View m_view;
@@ -37,6 +37,8 @@ private:
 	std::vector<Platform*> m_platforms;
 
 	float m_highestPlatformPosition;
+
+	int m_platformGap;
 };
 
 #endif

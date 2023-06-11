@@ -29,6 +29,11 @@ void Player::update()
 	}
 
 	m_boundingBox.setPosition(m_player.getPosition().x + m_player.getTextureRect().width / 6, m_player.getPosition().y + m_player.getTextureRect().height);
+
+	if (m_player.getPosition().x + m_player.getTextureRect().width <= 0)
+		m_player.setPosition(SCREEN_WIDTH, m_player.getPosition().y);
+	else if (m_player.getPosition().x > SCREEN_WIDTH)
+		m_player.setPosition(-m_player.getTextureRect().width, m_player.getPosition().y);
 }
 
 bool Player::jump(float velocity)
@@ -37,7 +42,7 @@ bool Player::jump(float velocity)
 	{
 		m_player.setPosition(m_player.getPosition().x, m_player.getPosition().y - m_velocityUp);
 		m_velocityUp -= velocity;
-		std::cout << m_player.getPosition().y << std::endl;
+
 		if (m_player.getPosition().y < m_highestPosition)
 			m_highestPosition = m_player.getPosition().y;
 
