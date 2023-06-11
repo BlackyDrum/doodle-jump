@@ -56,7 +56,7 @@ void Game::run()
         world.update(player.getPlayer());
 
         for (auto& p : world.getPlatforms())
-            Collision::checkCollision(player, p);
+            Collision::checkPlatformCollision(player, p);
 
         if (showSettings)
             Settings::settings(showSettings);
