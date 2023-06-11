@@ -55,8 +55,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d77d0fba-cb25-4ade-b1be-736a287c7a46}</ProjectGuid>
-    <RootNamespace>DoodleJumpBox2D</RootNamespace>
+    <ProjectGuid>{0c2e45b0-dd71-492d-bd98-219b0e4f7c6b}</ProjectGuid>
+    <RootNamespace>DoodleJump</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

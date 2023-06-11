@@ -43,6 +43,7 @@
 *.opensdf
 *.VC.db
 *.VC.VC.opendb
+.vs
 
 # Build results
 [Dd]ebug/
