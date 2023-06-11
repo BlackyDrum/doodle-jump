@@ -8,8 +8,6 @@ class Platform
 public:
 	void setup(sf::Vector2f);
 
-	bool loadAssets();
-
 	sf::Sprite& getPlatform() { return m_platform; }
 private:
 	sf::Texture m_platformTexture;

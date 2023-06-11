@@ -11,7 +11,7 @@ void Game::run()
     sf::Clock delta;
 
     bool showSettings = false;
-    float moveSpeed = 5, gravityForce = 0.3, jumpForce = 0.6;
+    float moveSpeed = 5, gravityForce = 0.6, jumpForce = 20.0;
 
     World world;
     if (!world.loadAssets())
@@ -19,10 +19,10 @@ void Game::run()
     world.setup();
     window.setView(world.getView());
 
-    Player player(0,20);
+    Player player(0, jumpForce);
     if (!player.loadAssets())
         return;
-    player.setup(sf::Vector2f(SCREEN_WIDTH / 2,-100));
+    player.setup(sf::Vector2f(SCREEN_WIDTH / 2,-200));
 
     while (window.isOpen())
     {
@@ -45,7 +45,7 @@ void Game::run()
 
         player.move(moveSpeed);
         player.gravity(gravityForce);
-        if (player.jump(jumpForce))
+        if (player.jump(gravityForce))
         {
             world.updateView(window, player);
         }

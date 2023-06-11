@@ -7,7 +7,7 @@ class Player
 {
 public:
 	Player(float velocityDown, float velocityUp) :
-		m_isFalling{ true }, m_isJumping{ false }, c_velocityDown{ velocityDown }, m_velocityDown{ velocityDown },
+		m_isFalling{ false }, m_isJumping{ true }, c_velocityDown{ velocityDown }, m_velocityDown{ velocityDown },
 		c_velocityUp{ velocityUp }, m_velocityUp{ velocityUp }, m_highestPosition{ 0 } {}
 
 	void setup(sf::Vector2f);
