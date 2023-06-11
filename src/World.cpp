@@ -12,10 +12,10 @@ World::World()
 		p->getPlatform().setTexture(m_platformTexture);
 		p->getPlatform().setTextureRect(sf::IntRect(0, 0, 58, 16));
 
-		float x = rand() % (SCREEN_WIDTH - p->getPlatform().getTextureRect().width * 2);
-		p->setup(sf::Vector2f(x, -i * m_platformGap + 200));
+		float x = rand() % (SCREEN_WIDTH - p->getPlatform().getTextureRect().width);
+		p->setup(sf::Vector2f(x, -i * m_platformGap));
 
-		m_highestPlatformPosition = -i * m_platformGap + 200;
+		m_highestPlatformPosition = -i * m_platformGap;
 
 		m_platforms.push_back(p);
 	}
@@ -90,7 +90,7 @@ void World::update(sf::Sprite player)
 		p->getPlatform().setTexture(m_platformTexture);
 		p->getPlatform().setTextureRect(sf::IntRect(0, 0, 58, 16));
 
-		float x = rand() % (SCREEN_WIDTH - p->getPlatform().getTextureRect().width * 2);
+		float x = rand() % (SCREEN_WIDTH - p->getPlatform().getTextureRect().width);
 		p->setup(sf::Vector2f(x, m_highestPlatformPosition - m_platformGap));
 
 		m_highestPlatformPosition = m_highestPlatformPosition - m_platformGap;

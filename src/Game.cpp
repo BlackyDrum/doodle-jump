@@ -22,7 +22,7 @@ void Game::run()
     Player player(0, jumpForce);
     if (!player.loadAssets())
         return;
-    player.setup(sf::Vector2f(SCREEN_WIDTH / 2,-200));
+    player.setup(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4 * -1.0));
 
     while (window.isOpen())
     {
