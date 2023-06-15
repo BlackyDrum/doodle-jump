@@ -77,7 +77,7 @@ void World::update(sf::Sprite player)
 {
 	for (int i = 0; i < m_platforms.size(); i++)
 	{
-		if (player.getPosition().y < m_platforms[i]->getPlatform().getPosition().y - SCREEN_HEIGHT / 1.5)
+		if (player.getPosition().y < m_platforms[i]->getPlatform().getPosition().y - SCREEN_HEIGHT / 2)
 		{
 			delete m_platforms[i];
 			m_platforms.erase(m_platforms.begin() + i);
