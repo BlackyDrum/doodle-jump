@@ -14,8 +14,10 @@ bool Player::loadAssets()
 void Player::setup(sf::Vector2f position)
 {
 	m_player.setPosition(position);
-	m_boundingBox.setPosition(position);
+
+	m_boundingBox.setPosition(position.x, position.y);
 	m_boundingBox.setSize(sf::Vector2f(m_player.getTextureRect().width / 2, m_player.getTextureRect().height / 8));
+	m_boundingBox.setFillColor(sf::Color::Red);
 }
 
 void Player::update()
@@ -29,7 +31,7 @@ void Player::update()
 		m_velocityDown = 0;
 	}
 
-	m_boundingBox.setPosition(m_player.getPosition().x + m_player.getTextureRect().width / 6, m_player.getPosition().y + m_player.getTextureRect().height);
+	m_boundingBox.setPosition(m_player.getPosition().x + m_player.getTextureRect().width / 4, m_player.getPosition().y + m_player.getTextureRect().height);
 
 	if (m_player.getPosition().x + m_player.getTextureRect().width <= 0)
 		m_player.setPosition(SCREEN_WIDTH, m_player.getPosition().y);
