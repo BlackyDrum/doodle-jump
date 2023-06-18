@@ -65,7 +65,7 @@ void Game::run()
        
         window.clear();
 
-        Renderer::draw(window, world.getBackgrounds(), player.getPlayer(), world.getPlatforms());
+        Renderer::draw(window, world.getBackgrounds(), player.getPlayer(), world.getPlatforms(), world.getBrokenPlatforms());
         //window.draw(player.getBoundingBox());
 
         ImGui::SFML::Render(window);
