@@ -2,6 +2,10 @@
 
 void Game::run()
 {
+#if defined(_WIN32) && defined(NDEBUG)
+    ShowWindow(GetConsoleWindow(), SW_HIDE);
+#endif
+
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Doodle Jump", sf::Style::Close);
     window.setFramerateLimit(60);
 

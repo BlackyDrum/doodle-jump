@@ -15,6 +15,10 @@
 #include <math.h>
 #include <memory>
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 const unsigned int SCREEN_WIDTH = 540, SCREEN_HEIGHT = 860;
 
 #endif
