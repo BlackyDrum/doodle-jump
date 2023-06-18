@@ -3,12 +3,12 @@
 
 #include "Globals.h"
 
-
+#include "Platform.h"
 
 class Renderer
 {
 public:
-	static void draw(sf::RenderWindow&, std::pair<sf::Sprite, sf::Sprite>);
+	static void draw(sf::RenderWindow&, std::pair<sf::Sprite, sf::Sprite>, sf::Sprite, std::vector<Platform*>, std::vector<Platform*>, std::vector<sf::Sprite*>);
 private:
 	Renderer() = default;
 };

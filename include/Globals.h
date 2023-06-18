@@ -1,8 +1,6 @@
 #ifndef _GLOBALS_H_
 #define _GLOBALS_H_
 
-#include <box2d/box2d.h>
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
@@ -17,6 +15,10 @@
 #include <math.h>
 #include <memory>
 
-const unsigned int SCREEN_WIDTH = 540, SCREEN_HEIGHT = 960;
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
+const unsigned int SCREEN_WIDTH = 540, SCREEN_HEIGHT = 860;
 
 #endif

@@ -3,10 +3,13 @@
 
 #include "Globals.h"
 
+#include "Platform.h"
+#include "Player.h"
+
 class World
 {
 public:
-	World(b2Vec2 gravity);
+	World();
 
 	~World();
 
@@ -14,20 +17,40 @@ public:
 
 	void setup();
 
-	void moveView(sf::RenderWindow&, sf::Sprite);
+	void moveBackground();
+
+	void updateView(sf::RenderWindow&, Player&);
+
+	void update(sf::Sprite);
 
 	std::pair<sf::Sprite, sf::Sprite> getBackgrounds() const { return m_backgrounds; }
 	sf::View getView() const { return m_view; }
-	b2World* getWorld() const { return m_world; }
+	std::vector<Platform*> getPlatforms() const { return m_platforms; }
+	std::vector<Platform*> getBrokenPlatforms() const { return m_brokenPlatforms; }
+
+	void setView(sf::View view) { m_view = view; }
+	void setBrokenPlatformIsFalling(int index) { m_brokenPlatformIsFalling[index] = true; }
 private:
-	sf::Texture m_backgroundTexture;
+	sf::Texture m_backgroundTexture, m_tiles;
 	std::pair<sf::Sprite, sf::Sprite> m_backgrounds;
+
+	sf::IntRect m_platformRect, m_brokenPlatformRect, m_brokenPlatformDownRect;
 
 	sf::View m_view;
 
-	b2Vec2 m_gravity;
+	std::vector<Platform*> m_platforms;
+	std::vector<Platform*> m_brokenPlatforms;
 
-	b2World* m_world;
+	std::vector<bool> m_brokenPlatformIsFalling;
+
+	float m_highestPlatformPosition, m_highestBrokenPlatformPosition;
+
+	int m_platformGap;
+
+	void createPlatforms(sf::Sprite);
+
+	void moveBrokenPlatformDown();
+
 };
 
 #endif

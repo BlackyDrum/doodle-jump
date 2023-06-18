@@ -1,14 +1,39 @@
 #include "../include/World.h"
 
-World::World(b2Vec2 gravity)
+World::World()
 {
-	m_gravity = gravity;
-	m_world = new b2World(gravity);
+	m_tiles.loadFromFile("assets/textures/game-tiles.png");
+
+	m_platformRect = sf::IntRect(0, 0, 58, 16);
+	m_brokenPlatformRect = sf::IntRect(0, 72, 61, 16);
+	m_brokenPlatformDownRect = sf::IntRect(0, 115, 61,31);
+
+	m_platformGap = 100;
+
+	for (int i = 0; i < 20; i++)
+	{
+		Platform* p = new Platform;
+		p->getPlatform().setTexture(m_tiles);
+		p->getPlatform().setTextureRect(m_platformRect);
+
+		float x = rand() % (SCREEN_WIDTH - p->getPlatform().getTextureRect().width);
+		p->setup(sf::Vector2f(x, -i * m_platformGap));
+
+		m_highestPlatformPosition = -i * m_platformGap;
+
+		m_platforms.push_back(p);
+	}
+
+	m_highestBrokenPlatformPosition = m_highestPlatformPosition;
+
 }
 
 World::~World()
 {
-	delete m_world;
+	for (auto& p : m_platforms)
+		delete p;
+	for (auto& p : m_brokenPlatforms)
+		delete p;
 }
 
 bool World::loadAssets()
@@ -28,15 +53,113 @@ void World::setup()
 
 	m_view.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	m_view.setCenter(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+
+	m_view.move(0, SCREEN_HEIGHT / 2 * -1.0);
 }
 
-void World::moveView(sf::RenderWindow& window, sf::Sprite player)
+void World::moveBackground()
 {
-	window.setView(m_view);
+	//m_view.setCenter(m_view.getCenter().x, player.getPosition().y);
 
 	if (m_backgrounds.first.getPosition().y > m_view.getCenter().y + SCREEN_HEIGHT / 2)
 		m_backgrounds.first.setPosition(0, m_backgrounds.second.getPosition().y - SCREEN_HEIGHT);
 
 	if (m_backgrounds.second.getPosition().y > m_view.getCenter().y + SCREEN_HEIGHT / 2)
 		m_backgrounds.second.setPosition(0, m_backgrounds.first.getPosition().y - SCREEN_HEIGHT);
+}
+
+void World::updateView(sf::RenderWindow& window, Player& player)
+{
+	sf::View v = window.getView();
+	v.setCenter(SCREEN_WIDTH / 2, player.getPlayer().getPosition().y);
+
+	float y = player.getPlayer().getPosition().y;
+
+	if (player.getHighestPosition() >= y)
+		m_view = v;
+
+	window.setView(m_view);
+}
+
+void World::update(sf::Sprite player)
+{
+	for (int i = 0; i < m_platforms.size(); i++)
+	{
+		if (player.getPosition().y < m_platforms[i]->getPlatform().getPosition().y - SCREEN_HEIGHT / 2)
+		{
+			delete m_platforms[i];
+			m_platforms.erase(m_platforms.begin() + i);
+		}
+	}
+
+	for (int i = 0; i < m_brokenPlatforms.size(); i++)
+	{
+		if (player.getPosition().y < m_brokenPlatforms[i]->getPlatform().getPosition().y - SCREEN_HEIGHT / 2)
+		{
+			delete m_brokenPlatforms[i];
+			m_brokenPlatforms.erase(m_brokenPlatforms.begin() + i);
+			m_brokenPlatformIsFalling.erase(m_brokenPlatformIsFalling.begin() + i);
+		}
+	}
+
+	createPlatforms(player);
+
+	moveBrokenPlatformDown();
+
+}
+
+void World::moveBrokenPlatformDown()
+{
+	for (int i = 0; i < m_brokenPlatformIsFalling.size(); i++)
+	{
+		if (m_brokenPlatformIsFalling[i])
+		{
+			m_brokenPlatforms[i]->getPlatform().setTextureRect(m_brokenPlatformDownRect);
+			m_brokenPlatforms[i]->getPlatform().setPosition(m_brokenPlatforms[i]->getPlatform().getPosition().x, m_brokenPlatforms[i]->getPlatform().getPosition().y + 5);
+		}
+			
+	}
+}
+
+void World::createPlatforms(sf::Sprite player)
+{
+	// Create normal platforms
+	if (player.getPosition().y - SCREEN_HEIGHT / 2 < m_highestPlatformPosition)
+	{
+		Platform* p = new Platform;
+		p->getPlatform().setTexture(m_tiles);
+		p->getPlatform().setTextureRect(m_platformRect);
+
+		float x = rand() % (SCREEN_WIDTH - p->getPlatform().getTextureRect().width);
+		p->setup(sf::Vector2f(x, m_highestPlatformPosition - m_platformGap));
+
+		m_highestPlatformPosition = m_highestPlatformPosition - m_platformGap;
+
+		m_platforms.push_back(p);
+	}
+
+	// Create broken platforms
+	if (player.getPosition().y - SCREEN_HEIGHT / 2 < m_highestBrokenPlatformPosition)
+	{
+		Platform* p = new Platform;
+		p->getPlatform().setTexture(m_tiles);
+		p->getPlatform().setTextureRect(m_brokenPlatformRect);
+
+		float x = rand() % (SCREEN_WIDTH - p->getPlatform().getTextureRect().width);
+		p->setup(sf::Vector2f(x, m_highestPlatformPosition));
+
+		for (int i = 0; i < m_platforms.size(); i++)
+		{
+			if (m_platforms[i]->getPlatform().getGlobalBounds().intersects(p->getPlatform().getGlobalBounds()))
+			{
+				delete p;
+				return;
+			}
+		}
+
+		m_highestBrokenPlatformPosition = m_highestBrokenPlatformPosition - SCREEN_HEIGHT;
+
+		m_brokenPlatformIsFalling.push_back(false);
+		m_brokenPlatforms.push_back(p);
+	}
 }
