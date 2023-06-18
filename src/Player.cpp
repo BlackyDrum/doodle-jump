@@ -90,12 +90,14 @@ void Player::move(float velocity)
 	{
 		m_player.setPosition(m_player.getPosition().x - velocity, m_player.getPosition().y);
 		m_player.setTexture(m_isShooting ? m_playerTextureUp : m_playerTextureLeft);
+		m_isLookingLeft = true;
 	}
 		
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
 	{
 		m_player.setPosition(m_player.getPosition().x + velocity, m_player.getPosition().y);
 		m_player.setTexture(m_isShooting ? m_playerTextureUp : m_playerTextureRight);
+		m_isLookingLeft = false;
 	}
 		
 }
@@ -124,6 +126,10 @@ void Player::shoot()
 	}
 
 	if (m_projectileSpeedClock.getElapsedTime().asSeconds() > 0.25)
+	{
 		m_isShooting = false;
+		m_player.setTexture(m_isLookingLeft ? m_playerTextureLeft : m_playerTextureRight);
+	}
+		
 	
 }

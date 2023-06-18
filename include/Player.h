@@ -8,7 +8,8 @@ class Player
 public:
 	Player(float velocityDown, float velocityUp) :
 		m_isFalling{ false }, m_isJumping{ true }, c_velocityDown{ velocityDown }, m_velocityDown{ velocityDown },
-		c_velocityUp{ velocityUp }, m_velocityUp{ velocityUp }, m_highestPosition{ 0 }, m_isShooting{ false }, m_projectileSpeed{ 0.25 } {}
+		c_velocityUp{ velocityUp }, m_velocityUp{ velocityUp }, m_highestPosition{ 0 }, m_isShooting{ false }, m_projectileSpeed{ 0.25 },
+		m_isLookingLeft{ true } {}
 
 	~Player();
 
@@ -46,7 +47,7 @@ private:
 
 	std::vector<sf::Sprite*> m_projectiles;
 
-	bool m_isFalling, m_isJumping, m_isShooting;
+	bool m_isFalling, m_isJumping, m_isShooting, m_isLookingLeft;
 
 	float c_velocityDown, m_velocityDown, c_velocityUp, m_velocityUp;
 
