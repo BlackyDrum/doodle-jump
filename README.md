@@ -1,2 +1,3 @@
-# Flappy Bird in SFML + ImGui!
+# Doodle Jump in SFML + ImGui!
 
+Currently in Remake
