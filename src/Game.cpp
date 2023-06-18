@@ -28,6 +28,11 @@ void Game::run()
         return;
     player.setup(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4 * -1.0));
 
+    Score score;
+    if (!score.loadAssets())
+        return;
+    score.setup();
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -60,6 +65,8 @@ void Game::run()
         world.moveBackground();
         world.update(player.getPlayer());
 
+        score.update(world.getView(), player.getHighestPosition());
+
         for (auto& p : world.getPlatforms())
         {
             if (Collision::checkPlatformCollision(player, p))
@@ -87,6 +94,8 @@ void Game::run()
 
         Renderer::draw(window, world.getBackgrounds(), player.getPlayer(), world.getPlatforms(), world.getBrokenPlatforms(), player.getProjectiles());
         //window.draw(player.getBoundingBox());
+
+        window.draw(score.getScore());
 
         ImGui::SFML::Render(window);
 
