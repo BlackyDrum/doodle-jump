@@ -50,7 +50,8 @@ void Game::run()
             world.updateView(window, player);
         }
 
-        player.update();
+        player.update(world.getView());
+        player.shoot();
 
         world.moveBackground();
         world.update(player.getPlayer());
@@ -80,7 +81,7 @@ void Game::run()
        
         window.clear();
 
-        Renderer::draw(window, world.getBackgrounds(), player.getPlayer(), world.getPlatforms(), world.getBrokenPlatforms());
+        Renderer::draw(window, world.getBackgrounds(), player.getPlayer(), world.getPlatforms(), world.getBrokenPlatforms(), player.getProjectiles());
         //window.draw(player.getBoundingBox());
 
         ImGui::SFML::Render(window);

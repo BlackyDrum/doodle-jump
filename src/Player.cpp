@@ -1,9 +1,15 @@
 #include "../include/Player.h"
 
+Player::~Player()
+{
+	for (auto& p : m_projectiles)
+		delete p;
+}
+
 bool Player::loadAssets()
 {
 	if (!m_playerTextureUp.loadFromFile("assets/textures/blue-lik-puca.png") || !m_playerTextureLeft.loadFromFile("assets/textures/blue-lik-left.png") ||
-		!m_playerTextureRight.loadFromFile("assets/textures/blue-lik-right.png"))
+		!m_playerTextureRight.loadFromFile("assets/textures/blue-lik-right.png") || !m_projectileTexture.loadFromFile("assets/textures/projectile-tiles.png"))
 		return false;
 
 	m_player.setTexture(m_playerTextureLeft);
@@ -20,7 +26,7 @@ void Player::setup(sf::Vector2f position)
 	m_boundingBox.setFillColor(sf::Color::Red);
 }
 
-void Player::update()
+void Player::update(sf::View view)
 {
 	if (m_velocityUp <= 0)
 	{
@@ -37,6 +43,20 @@ void Player::update()
 		m_player.setPosition(SCREEN_WIDTH, m_player.getPosition().y);
 	else if (m_player.getPosition().x > SCREEN_WIDTH)
 		m_player.setPosition(-m_player.getTextureRect().width, m_player.getPosition().y);
+
+	// Move and delete projectiles
+	for (int i = 0; i < m_projectiles.size(); i++)
+	{
+		m_projectiles[i]->setPosition(m_projectiles[i]->getPosition().x, m_projectiles[i]->getPosition().y - 20);
+
+		if (m_projectiles[i]->getPosition().y < view.getCenter().y - SCREEN_HEIGHT)
+		{
+			delete m_projectiles[i];
+			m_projectiles.erase(m_projectiles.begin() + i);
+		}
+			
+	}
+
 }
 
 bool Player::jump(float velocity)
@@ -69,13 +89,41 @@ void Player::move(float velocity)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
 	{
 		m_player.setPosition(m_player.getPosition().x - velocity, m_player.getPosition().y);
-		m_player.setTexture(m_playerTextureLeft);
+		m_player.setTexture(m_isShooting ? m_playerTextureUp : m_playerTextureLeft);
 	}
 		
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
 	{
 		m_player.setPosition(m_player.getPosition().x + velocity, m_player.getPosition().y);
-		m_player.setTexture(m_playerTextureRight);
+		m_player.setTexture(m_isShooting ? m_playerTextureUp : m_playerTextureRight);
 	}
 		
+}
+
+void Player::shoot()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_projectileSpeedClock.getElapsedTime().asSeconds() > m_projectileSpeed)
+	{
+		int offset = 10;
+
+		m_isShooting = true;
+
+		sf::Sprite* p = new sf::Sprite;
+
+		p->setTexture(m_projectileTexture);
+		p->setTextureRect(sf::IntRect(0, 0, 12, 12));
+		p->setPosition(m_player.getPosition().x + m_player.getTextureRect().width / 2 - offset, m_player.getPosition().y - m_player.getTextureRect().height / 2 + offset);
+
+		m_projectiles.push_back(p);
+
+		m_player.setTexture(m_playerTextureUp);
+
+		m_projectileSpeedClock.restart();
+
+		return;
+	}
+
+	if (m_projectileSpeedClock.getElapsedTime().asSeconds() > 0.25)
+		m_isShooting = false;
+	
 }
