@@ -10,7 +10,6 @@ public:
 
 	sf::Sprite& getPlatform() { return m_platform; }
 private:
-	sf::Texture m_platformTexture;
 	sf::Sprite m_platform;
 };
 
