@@ -66,9 +66,9 @@ void Game::run()
 
         for (int i = 0; i < world.getBrokenPlatforms().size(); i++)
         {
-            if (Collision::checkPlatformCollision(player, world.getBrokenPlatforms()[i]) && player.getIsFalling())
+            if (Collision::checkPlatformCollision(player, world.getBrokenPlatforms()[i]))
             {
-                // TODO: Broken platform should fall down 
+                world.setBrokenPlatformIsFalling(i);
             }
         }
             

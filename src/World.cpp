@@ -6,6 +6,7 @@ World::World()
 
 	m_platformRect = sf::IntRect(0, 0, 58, 16);
 	m_brokenPlatformRect = sf::IntRect(0, 72, 61, 16);
+	m_brokenPlatformDownRect = sf::IntRect(0, 115, 61,31);
 
 	m_platformGap = 100;
 
@@ -91,6 +92,37 @@ void World::update(sf::Sprite player)
 		}
 	}
 
+	for (int i = 0; i < m_brokenPlatforms.size(); i++)
+	{
+		if (player.getPosition().y < m_brokenPlatforms[i]->getPlatform().getPosition().y - SCREEN_HEIGHT / 2)
+		{
+			delete m_brokenPlatforms[i];
+			m_brokenPlatforms.erase(m_brokenPlatforms.begin() + i);
+			m_brokenPlatformIsFalling.erase(m_brokenPlatformIsFalling.begin() + i);
+		}
+	}
+
+	createPlatforms(player);
+
+	moveBrokenPlatformDown();
+
+}
+
+void World::moveBrokenPlatformDown()
+{
+	for (int i = 0; i < m_brokenPlatformIsFalling.size(); i++)
+	{
+		if (m_brokenPlatformIsFalling[i])
+		{
+			m_brokenPlatforms[i]->getPlatform().setTextureRect(m_brokenPlatformDownRect);
+			m_brokenPlatforms[i]->getPlatform().setPosition(m_brokenPlatforms[i]->getPlatform().getPosition().x, m_brokenPlatforms[i]->getPlatform().getPosition().y + 5);
+		}
+			
+	}
+}
+
+void World::createPlatforms(sf::Sprite player)
+{
 	// Create normal platforms
 	if (player.getPosition().y - SCREEN_HEIGHT / 2 < m_highestPlatformPosition)
 	{
@@ -104,7 +136,7 @@ void World::update(sf::Sprite player)
 		m_highestPlatformPosition = m_highestPlatformPosition - m_platformGap;
 
 		m_platforms.push_back(p);
-	}	
+	}
 
 	// Create broken platforms
 	if (player.getPosition().y - SCREEN_HEIGHT / 2 < m_highestBrokenPlatformPosition)
@@ -127,6 +159,7 @@ void World::update(sf::Sprite player)
 
 		m_highestBrokenPlatformPosition = m_highestBrokenPlatformPosition - SCREEN_HEIGHT;
 
+		m_brokenPlatformIsFalling.push_back(false);
 		m_brokenPlatforms.push_back(p);
 	}
 }

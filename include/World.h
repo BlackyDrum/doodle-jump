@@ -29,20 +29,28 @@ public:
 	std::vector<Platform*> getBrokenPlatforms() const { return m_brokenPlatforms; }
 
 	void setView(sf::View view) { m_view = view; }
+	void setBrokenPlatformIsFalling(int index) { m_brokenPlatformIsFalling[index] = true; }
 private:
 	sf::Texture m_backgroundTexture, m_tiles;
 	std::pair<sf::Sprite, sf::Sprite> m_backgrounds;
 
-	sf::IntRect m_platformRect, m_brokenPlatformRect;
+	sf::IntRect m_platformRect, m_brokenPlatformRect, m_brokenPlatformDownRect;
 
 	sf::View m_view;
 
 	std::vector<Platform*> m_platforms;
 	std::vector<Platform*> m_brokenPlatforms;
 
+	std::vector<bool> m_brokenPlatformIsFalling;
+
 	float m_highestPlatformPosition, m_highestBrokenPlatformPosition;
 
 	int m_platformGap;
+
+	void createPlatforms(sf::Sprite);
+
+	void moveBrokenPlatformDown();
+
 };
 
 #endif
