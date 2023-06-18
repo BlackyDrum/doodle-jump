@@ -9,7 +9,7 @@
 class Collision
 {
 public:
-	static void checkPlatformCollision(Player&, Platform*);
+	static bool checkPlatformCollision(Player&, Platform*);
 private:
 	Collision() = default;
 };

@@ -56,7 +56,22 @@ void Game::run()
         world.update(player.getPlayer());
 
         for (auto& p : world.getPlatforms())
-            Collision::checkPlatformCollision(player, p);
+        {
+            if (Collision::checkPlatformCollision(player, p))
+            {
+                player.setIsJumping(true);
+                player.setIsFalling(false);
+            }
+        }
+
+        for (int i = 0; i < world.getBrokenPlatforms().size(); i++)
+        {
+            if (Collision::checkPlatformCollision(player, world.getBrokenPlatforms()[i]) && player.getIsFalling())
+            {
+                // TODO: Broken platform should fall down 
+            }
+        }
+            
 
         if (showSettings)
             Settings::settings(showSettings);
