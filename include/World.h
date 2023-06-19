@@ -23,7 +23,10 @@ public:
 
 	void update(sf::Sprite);
 
+	void setFeatherTexture();
+
 	std::pair<sf::Sprite, sf::Sprite> getBackgrounds() const { return m_backgrounds; }
+	sf::Sprite getFeather() const { return m_feather; }
 	sf::View getView() const { return m_view; }
 	std::vector<Platform*> getPlatforms() const { return m_platforms; }
 	std::vector<Platform*> getBrokenPlatforms() const { return m_brokenPlatforms; }
@@ -34,7 +37,10 @@ private:
 	sf::Texture m_backgroundTexture, m_tiles;
 	std::pair<sf::Sprite, sf::Sprite> m_backgrounds;
 
+	sf::Sprite m_feather;
+
 	sf::IntRect m_platformRect, m_brokenPlatformRect, m_brokenPlatformDownRect;
+	sf::IntRect m_featherDefaultRect, m_featherJumpedRect;
 
 	sf::View m_view;
 

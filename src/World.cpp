@@ -4,6 +4,12 @@ World::World()
 {
 	m_tiles.loadFromFile("assets/textures/game-tiles.png");
 
+	m_featherDefaultRect = sf::IntRect(403, 98, 18, 13);
+	m_featherJumpedRect = sf::IntRect(403, 114, 18, 29);
+	m_feather.setTexture(m_tiles);
+	m_feather.setTextureRect(m_featherDefaultRect);
+	m_feather.setPosition(1000, 1000);
+
 	m_platformRect = sf::IntRect(0, 0, 58, 16);
 	m_brokenPlatformRect = sf::IntRect(0, 72, 61, 16);
 	m_brokenPlatformDownRect = sf::IntRect(0, 115, 61,31);
@@ -136,6 +142,14 @@ void World::createPlatforms(sf::Sprite player)
 		m_highestPlatformPosition = m_highestPlatformPosition - m_platformGap;
 
 		m_platforms.push_back(p);
+
+		// Move feather to new platform
+		int offset = 10;
+		if (m_feather.getPosition().y - SCREEN_HEIGHT > player.getPosition().y)
+		{
+			m_feather.setPosition(p->getPlatform().getPosition().x + offset, p->getPlatform().getPosition().y - offset);
+			m_feather.setTextureRect(m_featherDefaultRect);
+		}
 	}
 
 	// Create broken platforms
@@ -162,4 +176,10 @@ void World::createPlatforms(sf::Sprite player)
 		m_brokenPlatformIsFalling.push_back(false);
 		m_brokenPlatforms.push_back(p);
 	}
+}
+
+void World::setFeatherTexture()
+{
+	m_feather.setPosition(m_feather.getPosition().x, m_feather.getPosition().y - (m_featherJumpedRect.height - m_featherDefaultRect.height));
+	m_feather.setTextureRect(m_featherJumpedRect);
 }

@@ -15,7 +15,7 @@ void Game::run()
     sf::Clock delta;
 
     bool showSettings = false;
-    float moveSpeed = 6, gravityForce = 0.6, jumpForce = 20.0;
+    float moveSpeed = 6, gravityForce = 0.6, jumpForce = 20.0, featherForce = 30.0;
 
     World world;
     if (!world.loadAssets())
@@ -67,6 +67,16 @@ void Game::run()
 
         score.update(world.getView(), player.getHighestPosition());
 
+        if (Collision::checkFeatherCollision(player, world.getFeather()))
+        {
+            player.setVelocityUp(featherForce);
+
+            player.setIsJumping(true);
+            player.setIsFalling(false);
+
+            world.setFeatherTexture();
+        }
+
         for (auto& p : world.getPlatforms())
         {
             if (Collision::checkPlatformCollision(player, p))
@@ -79,9 +89,7 @@ void Game::run()
         for (int i = 0; i < world.getBrokenPlatforms().size(); i++)
         {
             if (Collision::checkPlatformCollision(player, world.getBrokenPlatforms()[i]))
-            {
                 world.setBrokenPlatformIsFalling(i);
-            }
         }
             
 
@@ -95,7 +103,7 @@ void Game::run()
         Renderer::draw(window, world.getBackgrounds(), player.getPlayer(), world.getPlatforms(), world.getBrokenPlatforms(), player.getProjectiles());
         //window.draw(player.getBoundingBox());
 
-        window.draw(score.getScore());
+        window.draw(score.getScore()); window.draw(world.getFeather());
 
         ImGui::SFML::Render(window);
 
