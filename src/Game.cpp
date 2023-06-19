@@ -94,9 +94,9 @@ void Game::run()
             
 
         if (showSettings)
-            Settings::settings(showSettings);
+            Settings::settings(showSettings, moveSpeed, jumpForce);
 
-        
+        player.setJumpForce(jumpForce);
        
         window.clear();
 

@@ -38,6 +38,7 @@ public:
 	void setIsFalling(bool falling) { m_isFalling = falling; }
 	void setIsJumping(bool jumping) { m_isJumping = jumping; }
 	void setVelocityUp(float velocity) { m_velocityUp = velocity; }
+	void setJumpForce(float force) { c_velocityUp = force; }
 private:
 	sf::Texture m_playerTextureUp, m_playerTextureLeft, m_playerTextureRight, m_projectileTexture;
 	sf::Sprite m_player;

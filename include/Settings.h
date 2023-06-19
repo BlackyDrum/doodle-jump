@@ -6,7 +6,7 @@
 class Settings
 {
 public:
-	static void settings(bool&);
+	static void settings(bool&, float&, float&);
 private:
 	Settings() = default;
 };
