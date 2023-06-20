@@ -102,7 +102,7 @@ void Player::move(float velocity)
 		
 }
 
-void Player::shoot()
+bool Player::shoot()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_projectileSpeedClock.getElapsedTime().asSeconds() > m_projectileSpeed)
 	{
@@ -122,7 +122,7 @@ void Player::shoot()
 
 		m_projectileSpeedClock.restart();
 
-		return;
+		return true;
 	}
 
 	if (m_projectileSpeedClock.getElapsedTime().asSeconds() > 0.25)
@@ -131,5 +131,6 @@ void Player::shoot()
 		m_player.setTexture(m_isLookingLeft ? m_playerTextureLeft : m_playerTextureRight);
 	}
 		
+	return false;
 	
 }

@@ -10,6 +10,7 @@
 #include "Platform.h"
 #include "Collision.h"
 #include "Score.h"
+#include "Sound.h"
 
 class Game
 {

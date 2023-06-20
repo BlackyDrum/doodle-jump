@@ -16,6 +16,7 @@ void Game::run()
 
     bool showSettings = false;
     float moveSpeed = 6, gravityForce = 0.6, jumpForce = 20.0, featherForce = 30.0;
+    int volume = 25;
 
     World world;
     if (!world.loadAssets())
@@ -32,6 +33,11 @@ void Game::run()
     if (!score.loadAssets())
         return;
     score.setup();
+
+    Sound sound(volume);
+    if (!sound.loadAssets())
+        return;
+    sound.setup();
 
     while (window.isOpen())
     {
@@ -60,7 +66,9 @@ void Game::run()
         }
 
         player.update(world.getView());
-        player.shoot();
+        
+        if (player.shoot())
+            sound.playShootSound();
 
         world.moveBackground();
         world.update(player.getPlayer());
@@ -75,6 +83,8 @@ void Game::run()
             player.setIsFalling(false);
 
             world.setFeatherTexture();
+
+            sound.playerFeatherSound();
         }
 
         for (auto& p : world.getPlatforms())
@@ -83,13 +93,20 @@ void Game::run()
             {
                 player.setIsJumping(true);
                 player.setIsFalling(false);
+
+                sound.playJumpSound();
             }
         }
 
         for (int i = 0; i < world.getBrokenPlatforms().size(); i++)
         {
             if (Collision::checkPlatformCollision(player, world.getBrokenPlatforms()[i]))
+            {
+                sound.playBreakSound();
+
                 world.setBrokenPlatformIsFalling(i);
+            }
+                
         }
             
 

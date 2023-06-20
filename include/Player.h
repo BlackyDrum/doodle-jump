@@ -25,7 +25,7 @@ public:
 
 	void move(float);
 
-	void shoot();
+	bool shoot();
 
 	sf::Sprite getPlayer() const { return m_player; }
 	sf::RectangleShape getBoundingBox() const { return m_boundingBox; }
