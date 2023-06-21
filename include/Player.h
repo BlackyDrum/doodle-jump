@@ -6,9 +6,9 @@
 class Player
 {
 public:
-	Player(float velocityDown, float velocityUp) :
-		m_isFalling{ false }, m_isJumping{ true }, c_velocityDown{ velocityDown }, m_velocityDown{ velocityDown },
-		c_velocityUp{ velocityUp }, m_velocityUp{ velocityUp }, m_highestPosition{ 0 }, m_isShooting{ false }, m_projectileSpeed{ 0.25 },
+	Player(float velocityDown, float velocityUp, float projectileSpeed) :
+		m_isFalling{ false }, m_isJumping{ true }, c_velocityDown{ velocityDown }, m_velocityDown{ velocityDown }, m_projectileSpeed{ projectileSpeed }, 
+		c_velocityUp{ velocityUp }, m_velocityUp{ velocityUp }, m_highestPosition{ 0 }, m_isShooting{ false }, m_projectileFireSpeed{ 0.25 },
 		m_isLookingLeft{ true } {}
 
 	~Player();
@@ -57,7 +57,7 @@ private:
 
 	float m_highestPosition;
 
-	float m_projectileSpeed;
+	float m_projectileFireSpeed, m_projectileSpeed;
 };
 
 #endif

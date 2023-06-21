@@ -47,7 +47,7 @@ void Player::update(sf::View view)
 	// Move and delete projectiles
 	for (int i = 0; i < m_projectiles.size(); i++)
 	{
-		m_projectiles[i]->setPosition(m_projectiles[i]->getPosition().x, m_projectiles[i]->getPosition().y - 20);
+		m_projectiles[i]->setPosition(m_projectiles[i]->getPosition().x, m_projectiles[i]->getPosition().y - m_projectileSpeed - m_velocityUp);
 
 		if (m_projectiles[i]->getPosition().y < view.getCenter().y - SCREEN_HEIGHT)
 		{
@@ -104,7 +104,7 @@ void Player::move(float velocity)
 
 bool Player::shoot()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_projectileSpeedClock.getElapsedTime().asSeconds() > m_projectileSpeed)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_projectileSpeedClock.getElapsedTime().asSeconds() > m_projectileFireSpeed)
 	{
 		int offset = 10;
 

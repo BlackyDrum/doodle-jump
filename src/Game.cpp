@@ -24,7 +24,7 @@ void Game::run()
     world.setup();
     window.setView(world.getView());
 
-    Player player(0, jumpForce);
+    Player player(0, jumpForce, 20);
     if (!player.loadAssets())
         return;
     player.setup(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4 * -1.0));
