@@ -27,7 +27,7 @@ public:
 
 	std::pair<sf::Sprite, sf::Sprite> getBackgrounds() const { return m_backgrounds; }
 	sf::Sprite getFeather() const { return m_feather; }
-	sf::View getView() const { return m_view; }
+	sf::View& getView() { return m_view; }
 	std::vector<Platform*> getPlatforms() const { return m_platforms; }
 	std::vector<Platform*> getBrokenPlatforms() const { return m_brokenPlatforms; }
 

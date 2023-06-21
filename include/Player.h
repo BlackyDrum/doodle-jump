@@ -29,7 +29,7 @@ public:
 
 	bool checkLose(sf::View);
 
-	sf::Sprite getPlayer() const { return m_player; }
+	sf::Sprite& getPlayer() { return m_player; }
 	sf::RectangleShape getBoundingBox() const { return m_boundingBox; }
 	std::vector<sf::Sprite*> getProjectiles() const { return m_projectiles; }
 	bool getIsFalling() const { return m_isFalling; }

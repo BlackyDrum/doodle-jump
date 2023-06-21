@@ -8,29 +8,12 @@ World::World()
 	m_featherJumpedRect = sf::IntRect(403, 114, 18, 29);
 	m_feather.setTexture(m_tiles);
 	m_feather.setTextureRect(m_featherDefaultRect);
-	m_feather.setPosition(1000, 1000);
 
 	m_platformRect = sf::IntRect(0, 0, 58, 16);
 	m_brokenPlatformRect = sf::IntRect(0, 72, 61, 16);
 	m_brokenPlatformDownRect = sf::IntRect(0, 115, 61,31);
 
 	m_platformGap = 100;
-
-	for (int i = 0; i < 20; i++)
-	{
-		Platform* p = new Platform;
-		p->getPlatform().setTexture(m_tiles);
-		p->getPlatform().setTextureRect(m_platformRect);
-
-		float x = rand() % (SCREEN_WIDTH - p->getPlatform().getTextureRect().width);
-		p->setup(sf::Vector2f(x, -i * m_platformGap));
-
-		m_highestPlatformPosition = -i * m_platformGap;
-
-		m_platforms.push_back(p);
-	}
-
-	m_highestBrokenPlatformPosition = m_highestPlatformPosition;
 
 }
 
@@ -55,12 +38,48 @@ bool World::loadAssets()
 
 void World::setup()
 {
+	m_highestPlatformPosition = 0;
+
+	int size = m_platforms.size();
+	for (int i = size - 1; i >= 0; i--)
+	{
+		delete m_platforms[i];
+		m_platforms.erase(m_platforms.begin() + i);
+	}
+
+	size = m_brokenPlatforms.size();
+	for (int i = size - 1; i >= 0; i--)
+	{
+		delete m_brokenPlatforms[i];
+		m_brokenPlatforms.erase(m_brokenPlatforms.begin() + i);
+		m_brokenPlatformIsFalling.erase(m_brokenPlatformIsFalling.begin() + i);
+	}
+
+	for (int i = 0; i < 20; i++)
+	{
+		Platform* p = new Platform;
+		p->getPlatform().setTexture(m_tiles);
+		p->getPlatform().setTextureRect(m_platformRect);
+
+		float x = rand() % (SCREEN_WIDTH - p->getPlatform().getTextureRect().width);
+		p->setup(sf::Vector2f(x, -i * m_platformGap));
+
+		m_highestPlatformPosition = -i * m_platformGap;
+
+		m_platforms.push_back(p);
+	}
+
+	m_highestBrokenPlatformPosition = m_highestPlatformPosition;
+
+	m_backgrounds.first.setPosition(0, 0);
 	m_backgrounds.second.setPosition(0, SCREEN_HEIGHT * -1.0);
 
 	m_view.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	m_view.setCenter(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
 	m_view.move(0, SCREEN_HEIGHT / 2 * -1.0);
+
+	m_feather.setPosition(1000, 1000);
 }
 
 void World::moveBackground()
@@ -129,6 +148,8 @@ void World::moveBrokenPlatformDown()
 
 void World::createPlatforms(sf::Sprite player)
 {
+	m_platformGap = rand() % 50 + 100;
+
 	// Create normal platforms
 	if (player.getPosition().y - SCREEN_HEIGHT / 2 < m_highestPlatformPosition)
 	{

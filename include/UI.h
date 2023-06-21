@@ -13,6 +13,8 @@ public:
 	void setup();
 
 	void update(sf::View);
+	
+	bool restart(sf::RenderWindow&);
 
 	sf::Text getPause() const { return m_pause; }
 	sf::Sprite getLostScreen() const { return m_lostScreen; }

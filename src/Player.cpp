@@ -20,10 +20,13 @@ bool Player::loadAssets()
 void Player::setup(sf::Vector2f position)
 {
 	m_player.setPosition(position);
+	m_velocityDown = c_velocityDown;
 
 	m_boundingBox.setPosition(position.x, position.y);
 	m_boundingBox.setSize(sf::Vector2f(m_player.getTextureRect().width / 2, m_player.getTextureRect().height / 8));
 	m_boundingBox.setFillColor(sf::Color::Red);
+
+	m_highestPosition = 0;
 }
 
 void Player::update(sf::View view)

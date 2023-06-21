@@ -26,3 +26,11 @@ void UI::update(sf::View view)
 
 	m_lostScreen.setPosition(view.getCenter());
 }
+
+bool UI::restart(sf::RenderWindow& window)
+{
+	if (sf::Mouse::getPosition(window).x > 200 && sf::Mouse::getPosition(window).x < 400 && sf::Mouse::getPosition(window).y > 500 && sf::Mouse::getPosition(window).y < 570 && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		return true;
+
+	return false;
+}

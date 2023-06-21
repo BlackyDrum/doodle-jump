@@ -14,6 +14,8 @@ void Game::run()
     ImGui::SFML::Init(window);
     sf::Clock delta;
 
+    const sf::View defaultView = window.getView();
+
     bool showSettings = false, gamePause = false, gameLost = false, lostSoundPlayed = false;
     float moveSpeed = 6, gravityForce = 0.6, jumpForce = 20.0, featherForce = 30.0;
     int volume = 25;
@@ -132,6 +134,23 @@ void Game::run()
             ui.update(window.getView());
         }
             
+        if (gameLost && ui.restart(window))
+        {
+            gameLost = false;
+            lostSoundPlayed = false;
+
+            player.setup(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 * -1.0));
+            player.setIsFalling(false);
+            player.setIsJumping(true);
+
+            world.setup();
+
+            score.setup();
+
+            world.setView(window.getDefaultView());
+            world.getView().move(0, SCREEN_HEIGHT * -1.0);
+            window.setView(world.getView());
+        }
 
         if (showSettings)
             Settings::settings(showSettings, moveSpeed, jumpForce);
