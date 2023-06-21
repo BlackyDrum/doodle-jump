@@ -33,6 +33,7 @@
     <ClCompile Include="src\Score.cpp" />
     <ClCompile Include="src\Settings.cpp" />
     <ClCompile Include="src\Sound.cpp" />
+    <ClCompile Include="src\UI.cpp" />
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +55,7 @@
     <ClInclude Include="include\Score.h" />
     <ClInclude Include="include\Settings.h" />
     <ClInclude Include="include\Sound.h" />
+    <ClInclude Include="include\UI.h" />
     <ClInclude Include="include\World.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

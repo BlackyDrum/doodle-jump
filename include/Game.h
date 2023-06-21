@@ -11,6 +11,7 @@
 #include "Collision.h"
 #include "Score.h"
 #include "Sound.h"
+#include "UI.h"
 
 class Game
 {

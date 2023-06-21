@@ -14,7 +14,7 @@ void Game::run()
     ImGui::SFML::Init(window);
     sf::Clock delta;
 
-    bool showSettings = false;
+    bool showSettings = false, gamePause = false;
     float moveSpeed = 6, gravityForce = 0.6, jumpForce = 20.0, featherForce = 30.0;
     int volume = 25;
 
@@ -39,6 +39,11 @@ void Game::run()
         return;
     sound.setup();
 
+    UI ui;
+    if (!ui.loadAssets())
+        return;
+    ui.setup();
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -53,60 +58,66 @@ void Game::run()
                 showSettings = !showSettings;
             else if (event.type == sf::Event::KeyPressed)
             {                   
+                if (event.key.code == sf::Keyboard::Escape)
+                    gamePause = !gamePause;
             }
         }
 
         ImGui::SFML::Update(window, delta.restart());;
 
-        player.move(moveSpeed);
-        player.gravity(gravityForce);
-        if (player.jump(gravityForce))
-        {
-            world.updateView(window, player);
-        }
-
-        player.update(world.getView());
-        
-        if (player.shoot())
-            sound.playShootSound();
-
-        world.moveBackground();
-        world.update(player.getPlayer());
-
-        score.update(world.getView(), player.getHighestPosition());
-
-        if (Collision::checkFeatherCollision(player, world.getFeather()))
-        {
-            player.setVelocityUp(featherForce);
-
-            player.setIsJumping(true);
-            player.setIsFalling(false);
-
-            world.setFeatherTexture();
-
-            sound.playerFeatherSound();
-        }
-
-        for (auto& p : world.getPlatforms())
-        {
-            if (Collision::checkPlatformCollision(player, p))
+        if (!gamePause) {
+            player.move(moveSpeed);
+            player.gravity(gravityForce);
+            if (player.jump(gravityForce))
             {
+                world.updateView(window, player);
+            }
+
+            player.update(world.getView());
+
+            if (player.shoot())
+                sound.playShootSound();
+
+            world.moveBackground();
+            world.update(player.getPlayer());
+
+            score.update(world.getView(), player.getHighestPosition());
+
+            if (Collision::checkFeatherCollision(player, world.getFeather()))
+            {
+                player.setVelocityUp(featherForce);
+
                 player.setIsJumping(true);
                 player.setIsFalling(false);
 
-                sound.playJumpSound();
-            }
-        }
+                world.setFeatherTexture();
 
-        for (int i = 0; i < world.getBrokenPlatforms().size(); i++)
-        {
-            if (Collision::checkPlatformCollision(player, world.getBrokenPlatforms()[i]))
+                sound.playerFeatherSound();
+            }
+
+            for (auto& p : world.getPlatforms())
             {
-                sound.playBreakSound();
+                if (Collision::checkPlatformCollision(player, p))
+                {
+                    player.setIsJumping(true);
+                    player.setIsFalling(false);
 
-                world.setBrokenPlatformIsFalling(i);
+                    sound.playJumpSound();
+                }
             }
-                
+
+            for (int i = 0; i < world.getBrokenPlatforms().size(); i++)
+            {
+                if (Collision::checkPlatformCollision(player, world.getBrokenPlatforms()[i]))
+                {
+                    sound.playBreakSound();
+
+                    world.setBrokenPlatformIsFalling(i);
+                }
+
+            }
+
+            ui.update(window.getView());
         }
             
 
@@ -117,10 +128,12 @@ void Game::run()
        
         window.clear();
 
-        Renderer::draw(window, world.getBackgrounds(), player.getPlayer(), world.getPlatforms(), world.getBrokenPlatforms(), player.getProjectiles());
+        Renderer::draw(window, world.getBackgrounds(), player.getPlayer(), world.getPlatforms(), world.getBrokenPlatforms(), player.getProjectiles(), world.getFeather());
         //window.draw(player.getBoundingBox());
 
-        window.draw(score.getScore()); window.draw(world.getFeather());
+        window.draw(score.getScore());
+        if (gamePause)
+            window.draw(ui.getPause());
 
         ImGui::SFML::Render(window);
 
