@@ -47,7 +47,10 @@ void Player::update(sf::View view)
 	// Move and delete projectiles
 	for (int i = 0; i < m_projectiles.size(); i++)
 	{
-		m_projectiles[i]->setPosition(m_projectiles[i]->getPosition().x, m_projectiles[i]->getPosition().y - m_projectileSpeed - m_velocityUp);
+		if (m_isJumping)
+			m_projectiles[i]->setPosition(m_projectiles[i]->getPosition().x, m_projectiles[i]->getPosition().y - m_projectileSpeed - m_velocityUp);
+		else
+			m_projectiles[i]->setPosition(m_projectiles[i]->getPosition().x, m_projectiles[i]->getPosition().y - m_projectileSpeed);
 
 		if (m_projectiles[i]->getPosition().y < view.getCenter().y - SCREEN_HEIGHT)
 		{
