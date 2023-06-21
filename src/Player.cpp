@@ -134,3 +134,11 @@ bool Player::shoot()
 	return false;
 	
 }
+
+bool Player::checkLose(sf::View view)
+{
+	if (m_player.getPosition().y > view.getCenter().y + SCREEN_HEIGHT / 2)
+		return true;
+
+	return false;
+}

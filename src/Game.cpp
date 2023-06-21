@@ -14,7 +14,7 @@ void Game::run()
     ImGui::SFML::Init(window);
     sf::Clock delta;
 
-    bool showSettings = false, gamePause = false;
+    bool showSettings = false, gamePause = false, gameLost = false, lostSoundPlayed = false;
     float moveSpeed = 6, gravityForce = 0.6, jumpForce = 20.0, featherForce = 30.0;
     int volume = 25;
 
@@ -58,14 +58,14 @@ void Game::run()
                 showSettings = !showSettings;
             else if (event.type == sf::Event::KeyPressed)
             {                   
-                if (event.key.code == sf::Keyboard::Escape)
+                if (event.key.code == sf::Keyboard::Escape && !gameLost)
                     gamePause = !gamePause;
             }
         }
 
         ImGui::SFML::Update(window, delta.restart());;
 
-        if (!gamePause) {
+        if (!gamePause && !gameLost) {
             player.move(moveSpeed);
             player.gravity(gravityForce);
             if (player.jump(gravityForce))
@@ -74,6 +74,18 @@ void Game::run()
             }
 
             player.update(world.getView());
+
+            if (player.checkLose(window.getView()))
+            {
+                gameLost = true;
+
+                if (!lostSoundPlayed)
+                {
+                    sound.playLoseSound();
+
+                    lostSoundPlayed = true;
+                }
+            }
 
             if (player.shoot())
                 sound.playShootSound();
@@ -134,6 +146,9 @@ void Game::run()
         window.draw(score.getScore());
         if (gamePause)
             window.draw(ui.getPause());
+
+        if (gameLost)
+            window.draw(ui.getLostScreen());
 
         ImGui::SFML::Render(window);
 

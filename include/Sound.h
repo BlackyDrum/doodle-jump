@@ -22,6 +22,8 @@ public:
 	void playShootSound();
 
 	void playerFeatherSound();
+
+	void playLoseSound();
 private:
 	sf::SoundBuffer m_jumpBuffer;
 	sf::Sound m_jump;
@@ -34,6 +36,9 @@ private:
 
 	sf::SoundBuffer m_featherBuffer;
 	sf::Sound m_feather;
+
+	sf::SoundBuffer m_lostBuffer;
+	sf::Sound m_lost;
 
 	int m_volume;
 };
