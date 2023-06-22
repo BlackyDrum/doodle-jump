@@ -46,6 +46,8 @@ void Game::run()
         return;
     ui.setup();
 
+    Settings settings;
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -165,7 +167,7 @@ void Game::run()
         }
 
         if (showSettings)
-            Settings::settings(showSettings, moveSpeed, jumpForce, featherForce, trampolineForce, gravityForce, volume);
+            settings.settings(showSettings, moveSpeed, jumpForce, featherForce, trampolineForce, gravityForce, volume);
 
         player.setJumpForce(jumpForce);
 
