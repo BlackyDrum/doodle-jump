@@ -6,6 +6,10 @@ CURRENTLY IN REMAKE
 
 ## Controls
 <table>
+  <tr>
+  <td><strong>Key</strong></td>
+  <td><strong>Action</strong></td>
+ </tr>
  <tr>
   <td>A</td>
   <td>Left</td>
