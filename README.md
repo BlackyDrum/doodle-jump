@@ -5,10 +5,25 @@ You have the option to modify some of the game options/assets such as jump force
 CURRENTLY IN REMAKE
 
 ## Controls
-- ``A`` - Left
-- ``D`` - Right
-- ``Space`` - Shoot
-- ``Escape`` - Pause
+<table>
+ <tr>
+  <td>A</td>
+  <td>Left</td>
+ </tr>
+  <tr>
+  <td>D</td>
+  <td>Right</td>
+ </tr>
+  <tr>
+  <td>Space</td>
+  <td>Shoot</td>
+ </tr>
+  <tr>
+  <td>Escape</td>
+  <td>Pause</td>
+ </tr>
+</table>
+
 
 ## Prerequisites
 Before running the Doodle Jump clone, make sure you have the following installed on your system:
