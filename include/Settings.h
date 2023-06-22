@@ -8,7 +8,7 @@ class Settings
 public:
 	Settings() = default;
 
-	void settings(bool&, float&, float&, float&, float&, float&, int&, int, float[], int&);
+	void settings(bool&, float&, float&, float&, float&, float&, int&, int, float[], int&, float&);
 
 #ifdef _WIN32
 	float getMemoryUse();

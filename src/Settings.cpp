@@ -1,12 +1,13 @@
 #include "../include/Settings.h"
 
-void Settings::settings(bool& showSettings, float& movementSpeed, float& jumpForce, float& featherForce, float& trampolineForce, float& gravity, int& volume, int MaxMemoryHistory, float memoryHistory[], int& memoryIndex)
+void Settings::settings(bool& showSettings, float& movementSpeed, float& jumpForce, float& featherForce, float& trampolineForce, float& gravity, int& volume, int MaxMemoryHistory, float memoryHistory[], int& memoryIndex, float& projectileFireSpeed)
 {
 	ImGui::Begin("Settings", &showSettings);
 
 	ImGui::Text("Player Settings");
 	ImGui::SliderFloat("Movement Speed", &movementSpeed, 1, 15);
 	ImGui::SliderFloat("Jump Force", &jumpForce, 10, 50);
+    ImGui::SliderFloat("Rapid Fire Speed", &projectileFireSpeed, 0.05, 1.0);
 
 	ImGui::NewLine();
 

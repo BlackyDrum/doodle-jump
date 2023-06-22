@@ -17,7 +17,9 @@ void Game::run()
     const sf::View defaultView = window.getView();
 
     bool showSettings = false, gamePause = false, gameLost = false, lostSoundPlayed = false;
-    float moveSpeed = 6, gravityForce = 0.6, jumpForce = 20.0, featherForce = 30.0, trampolineForce = 40.0;
+    float moveSpeed = 6, jumpForce = 20.0, projectileFireSpeed = 0.25;
+    float gravityForce = 0.6;
+    float featherForce = 30.0, trampolineForce = 40.0;
     int volume = 25;
 
     const int MaxMemoryHistory = 100;
@@ -82,6 +84,7 @@ void Game::run()
             }
 
             player.update(world.getView());
+            player.setProjectileFireSpeed(projectileFireSpeed);
 
             if (player.checkLose(window.getView()))
             {
@@ -171,7 +174,7 @@ void Game::run()
         }
 
         if (showSettings)
-            settings.settings(showSettings, moveSpeed, jumpForce, featherForce, trampolineForce, gravityForce, volume, MaxMemoryHistory, memoryHistory, memoryIndex);
+            settings.settings(showSettings, moveSpeed, jumpForce, featherForce, trampolineForce, gravityForce, volume, MaxMemoryHistory, memoryHistory, memoryIndex, projectileFireSpeed);
 
         player.setJumpForce(jumpForce);
 
