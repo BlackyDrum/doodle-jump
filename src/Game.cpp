@@ -165,9 +165,11 @@ void Game::run()
         }
 
         if (showSettings)
-            Settings::settings(showSettings, moveSpeed, jumpForce, featherForce, trampolineForce, gravityForce);
+            Settings::settings(showSettings, moveSpeed, jumpForce, featherForce, trampolineForce, gravityForce, volume);
 
         player.setJumpForce(jumpForce);
+
+        sound.updateVolume(volume);
        
         window.clear();
 

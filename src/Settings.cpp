@@ -1,6 +1,6 @@
 #include "../include/Settings.h"
 
-void Settings::settings(bool& showSettings, float& movementSpeed, float& jumpForce, float& featherForce, float& trampolineForce, float& gravity)
+void Settings::settings(bool& showSettings, float& movementSpeed, float& jumpForce, float& featherForce, float& trampolineForce, float& gravity, int& volume)
 {
 	ImGui::Begin("Settings", &showSettings);
 
@@ -18,6 +18,11 @@ void Settings::settings(bool& showSettings, float& movementSpeed, float& jumpFor
 	ImGui::Text("Tile Settings");
 	ImGui::SliderFloat("Feather Force", &featherForce, 30, 100);
 	ImGui::SliderFloat("Trampoline Force", &trampolineForce, 40, 100);
+
+	ImGui::NewLine();
+
+	ImGui::Text("Assets");
+	ImGui::SliderInt("Volume", &volume, 0, 100);
 
 	ImGui::End();
 }
