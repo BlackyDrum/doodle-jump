@@ -26,7 +26,7 @@ void Settings::settings(bool& showSettings, float& movementSpeed, float& jumpFor
 
     if (ImGui::CollapsingHeader("Statistics"))
     {
-        sf::Time elapsedTime = frameClock.restart();
+        sf::Time elapsedTime = m_frameClock.restart();
 
         float deltaTime = elapsedTime.asSeconds();
         int fps = static_cast<int>(1.0f / deltaTime);

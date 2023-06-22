@@ -16,7 +16,7 @@ public:
 	std::string readStatus(const std::string& key, std::string fileName);
 #endif
 private:
-	sf::Clock frameClock;
+	sf::Clock m_frameClock;
 };
 
 #endif
