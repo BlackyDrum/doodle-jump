@@ -25,6 +25,20 @@ void Settings::settings(bool& showSettings, float& movementSpeed, float& jumpFor
 	ImGui::Text("Assets");
 	ImGui::SliderInt("Volume", &volume, 0, 100);
 
+    ImGui::NewLine();
+
+    if (ImGui::Button("Reset Settings"))
+    {
+        movementSpeed = 6;
+        jumpForce = 20.0;
+        projectileFireSpeed = 0.25;
+
+        gravity = 0.6;
+
+        featherForce = 30.0;
+        trampolineForce = 40.0;
+    }
+
     if (ImGui::CollapsingHeader("Statistics"))
     {
         sf::Time elapsedTime = m_frameClock.restart();
