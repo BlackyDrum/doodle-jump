@@ -165,7 +165,7 @@ void Game::run()
         }
 
         if (showSettings)
-            Settings::settings(showSettings, moveSpeed, jumpForce);
+            Settings::settings(showSettings, moveSpeed, jumpForce, featherForce, trampolineForce, gravityForce);
 
         player.setJumpForce(jumpForce);
        
