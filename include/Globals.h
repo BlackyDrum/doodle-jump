@@ -17,6 +17,7 @@
 
 #ifdef _WIN32
 #include <Windows.h>
+#include <Psapi.h>
 #endif
 
 const unsigned int SCREEN_WIDTH = 540, SCREEN_HEIGHT = 860;

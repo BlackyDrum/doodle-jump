@@ -8,9 +8,15 @@ class Settings
 public:
 	Settings() = default;
 
-	void settings(bool&, float&, float&, float&, float&, float&, int&);
+	void settings(bool&, float&, float&, float&, float&, float&, int&, int, float[], int&);
+
+#ifdef _WIN32
+	float getMemoryUse();
+#else
+	std::string readStatus(const std::string& key, std::string fileName);
+#endif
 private:
-	
+	sf::Clock frameClock;
 };
 
 #endif

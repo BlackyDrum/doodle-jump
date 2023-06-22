@@ -20,6 +20,10 @@ void Game::run()
     float moveSpeed = 6, gravityForce = 0.6, jumpForce = 20.0, featherForce = 30.0, trampolineForce = 40.0;
     int volume = 25;
 
+    const int MaxMemoryHistory = 100;
+    float memoryHistory[MaxMemoryHistory] = {};
+    int memoryIndex = 0;
+
     World world;
     if (!world.loadAssets())
         return;
@@ -167,7 +171,7 @@ void Game::run()
         }
 
         if (showSettings)
-            settings.settings(showSettings, moveSpeed, jumpForce, featherForce, trampolineForce, gravityForce, volume);
+            settings.settings(showSettings, moveSpeed, jumpForce, featherForce, trampolineForce, gravityForce, volume, MaxMemoryHistory, memoryHistory, memoryIndex);
 
         player.setJumpForce(jumpForce);
 
