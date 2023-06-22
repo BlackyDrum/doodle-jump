@@ -8,9 +8,9 @@ bool Collision::checkPlatformCollision(Player& player, Platform* platform)
     return false;
 }
 
-bool Collision::checkFeatherCollision(Player& player, sf::Sprite feather)
+bool Collision::checkTileCollision(Player& player, sf::Sprite tile)
 {
-    if (player.getBoundingBox().getGlobalBounds().intersects(feather.getGlobalBounds()) && player.getIsFalling())
+    if (player.getBoundingBox().getGlobalBounds().intersects(tile.getGlobalBounds()) && player.getIsFalling())
         return true;
 
     return false;

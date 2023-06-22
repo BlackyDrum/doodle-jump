@@ -11,7 +11,7 @@ class Collision
 public:
 	static bool checkPlatformCollision(Player&, Platform*);
 
-	static bool checkFeatherCollision(Player&, sf::Sprite);
+	static bool checkTileCollision(Player&, sf::Sprite);
 private:
 	Collision() = default;
 };

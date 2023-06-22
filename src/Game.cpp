@@ -17,7 +17,7 @@ void Game::run()
     const sf::View defaultView = window.getView();
 
     bool showSettings = false, gamePause = false, gameLost = false, lostSoundPlayed = false;
-    float moveSpeed = 6, gravityForce = 0.6, jumpForce = 20.0, featherForce = 30.0;
+    float moveSpeed = 6, gravityForce = 0.6, jumpForce = 20.0, featherForce = 30.0, trampolineForce = 40.0;
     int volume = 25;
 
     World world;
@@ -97,7 +97,7 @@ void Game::run()
 
             score.update(world.getView(), player.getHighestPosition());
 
-            if (Collision::checkFeatherCollision(player, world.getFeather()))
+            if (Collision::checkTileCollision(player, world.getFeather()))
             {
                 player.setVelocityUp(featherForce);
 
@@ -107,6 +107,17 @@ void Game::run()
                 world.setFeatherTexture();
 
                 sound.playerFeatherSound();
+            }
+            if (Collision::checkTileCollision(player, world.getTrampoline()))
+            {
+                player.setVelocityUp(trampolineForce);
+
+                player.setIsJumping(true);
+                player.setIsFalling(false);
+
+                world.setTrampolineTexture();
+
+                sound.playTrampolineSound();
             }
 
             for (auto& p : world.getPlatforms())
@@ -160,7 +171,7 @@ void Game::run()
        
         window.clear();
 
-        Renderer::draw(window, world.getBackgrounds(), player.getPlayer(), world.getPlatforms(), world.getBrokenPlatforms(), player.getProjectiles(), world.getFeather());
+        Renderer::draw(window, world.getBackgrounds(), player.getPlayer(), world.getPlatforms(), world.getBrokenPlatforms(), player.getProjectiles(), world.getFeather(), world.getTrampoline());
         //window.draw(player.getBoundingBox());
 
         window.draw(score.getScore());

@@ -13,7 +13,13 @@ World::World()
 	m_brokenPlatformRect = sf::IntRect(0, 72, 61, 16);
 	m_brokenPlatformDownRect = sf::IntRect(0, 115, 61,31);
 
+	m_trampolineDefaultRect = sf::IntRect(187,97,37,15);
+	m_trampolineJumpedRect = sf::IntRect(148,93,37,19);
+	m_trampoline.setTexture(m_tiles);
+	m_trampoline.setTextureRect(m_trampolineDefaultRect);
+
 	m_platformGap = 100;
+	m_trampolineSpawnRate = 10;
 
 }
 
@@ -80,6 +86,7 @@ void World::setup()
 	m_view.move(0, SCREEN_HEIGHT / 2 * -1.0);
 
 	m_feather.setPosition(1000, 1000);
+	m_trampoline.setPosition(1000, 1000);
 }
 
 void World::moveBackground()
@@ -171,6 +178,12 @@ void World::createPlatforms(sf::Sprite player)
 			m_feather.setPosition(p->getPlatform().getPosition().x + offset, p->getPlatform().getPosition().y - offset);
 			m_feather.setTextureRect(m_featherDefaultRect);
 		}
+		// Move trampoline to new platofrm
+		else if (m_trampoline.getPosition().y - SCREEN_HEIGHT * m_trampolineSpawnRate > player.getPosition().y)
+		{
+			m_trampoline.setPosition(p->getPlatform().getPosition().x + offset, p->getPlatform().getPosition().y - offset);
+			m_trampoline.setTextureRect(m_trampolineDefaultRect);
+		}
 	}
 
 	// Create broken platforms
@@ -203,4 +216,10 @@ void World::setFeatherTexture()
 {
 	m_feather.setPosition(m_feather.getPosition().x, m_feather.getPosition().y - (m_featherJumpedRect.height - m_featherDefaultRect.height));
 	m_feather.setTextureRect(m_featherJumpedRect);
+}
+
+void World::setTrampolineTexture()
+{
+	m_trampoline.setPosition(m_trampoline.getPosition().x, m_trampoline.getPosition().y - (m_trampolineJumpedRect.height - m_trampolineDefaultRect.height));
+	m_trampoline.setTextureRect(m_trampolineJumpedRect);
 }

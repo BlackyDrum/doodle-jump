@@ -24,6 +24,8 @@ public:
 	void playerFeatherSound();
 
 	void playLoseSound();
+
+	void playTrampolineSound();
 private:
 	sf::SoundBuffer m_jumpBuffer;
 	sf::Sound m_jump;
@@ -39,6 +41,9 @@ private:
 
 	sf::SoundBuffer m_lostBuffer;
 	sf::Sound m_lost;
+
+	sf::SoundBuffer m_trampolineBuffer;
+	sf::Sound m_trampoline;
 
 	int m_volume;
 };

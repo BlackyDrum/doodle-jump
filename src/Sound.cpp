@@ -3,7 +3,8 @@
 bool Sound::loadAssets()
 {
 	if (!m_jumpBuffer.loadFromFile("assets/sounds/jump.wav") || !m_breakBuffer.loadFromFile("assets/sounds/break.wav") || !m_shootBuffer1.loadFromFile("assets/sounds/shoot1.wav") || 
-		!m_shootBuffer2.loadFromFile("assets/sounds/shoot2.wav") || !m_featherBuffer.loadFromFile("assets/sounds/feather.wav") || !m_lostBuffer.loadFromFile("assets/sounds/lost.wav"))
+		!m_shootBuffer2.loadFromFile("assets/sounds/shoot2.wav") || !m_featherBuffer.loadFromFile("assets/sounds/feather.wav") || !m_lostBuffer.loadFromFile("assets/sounds/lost.wav") || 
+		!m_trampolineBuffer.loadFromFile("assets/sounds/trampoline.wav"))
 		return false;
 
 	return true;
@@ -25,6 +26,9 @@ void Sound::setup()
 
 	m_lost.setBuffer(m_lostBuffer);
 	m_lost.setVolume(m_volume);
+
+	m_trampoline.setBuffer(m_trampolineBuffer);
+	m_trampoline.setVolume(m_volume);
 }
 
 void Sound::updateVolume(int volume)
@@ -36,6 +40,7 @@ void Sound::updateVolume(int volume)
 	m_shoot.setVolume(m_volume);
 	m_feather.setVolume(m_volume);
 	m_lost.setVolume(m_volume);
+	m_trampoline.setVolume(m_volume);
 }
 
 void Sound::playJumpSound()
@@ -73,4 +78,9 @@ void Sound::playerFeatherSound()
 void Sound::playLoseSound()
 {
 	m_lost.play();
+}
+
+void Sound::playTrampolineSound()
+{
+	m_trampoline.play();
 }
