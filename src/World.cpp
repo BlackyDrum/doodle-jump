@@ -148,7 +148,7 @@ void World::moveBrokenPlatformDown()
 
 void World::createPlatforms(sf::Sprite player)
 {
-	m_platformGap = rand() % 50 + 100;
+	m_platformGap = rand() % 100 + 100;
 
 	// Create normal platforms
 	if (player.getPosition().y - SCREEN_HEIGHT / 2 < m_highestPlatformPosition)
