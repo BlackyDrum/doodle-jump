@@ -30,6 +30,7 @@ public:
 	sf::View& getView() { return m_view; }
 	std::vector<Platform*> getPlatforms() const { return m_platforms; }
 	std::vector<Platform*> getBrokenPlatforms() const { return m_brokenPlatforms; }
+	std::vector<bool> getBrokenPlatformIsFalling() const { return m_brokenPlatformIsFalling; }
 
 	void setView(sf::View view) { m_view = view; }
 	void setBrokenPlatformIsFalling(int index) { m_brokenPlatformIsFalling[index] = true; }

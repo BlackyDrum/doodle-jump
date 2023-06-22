@@ -124,7 +124,8 @@ void Game::run()
             {
                 if (Collision::checkPlatformCollision(player, world.getBrokenPlatforms()[i]))
                 {
-                    sound.playBreakSound();
+                    if (!world.getBrokenPlatformIsFalling()[i])
+                        sound.playBreakSound();
 
                     world.setBrokenPlatformIsFalling(i);
                 }
