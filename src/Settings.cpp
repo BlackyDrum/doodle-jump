@@ -39,6 +39,8 @@ void Settings::settings(bool& showSettings, float& movementSpeed, float& jumpFor
         trampolineForce = 40.0;
     }
 
+    ImGui::NewLine();
+
     if (ImGui::CollapsingHeader("Statistics"))
     {
         sf::Time elapsedTime = m_frameClock.restart();
