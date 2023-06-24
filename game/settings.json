@@ -1,6 +1,7 @@
 {
    "Assets" : {
-      "highscore" : 12278
+      "highscore" : 12278,
+      "name" : "Doodler"
    },
    "Settings" : null
 }

@@ -16,14 +16,21 @@ void UI::setup()
 	m_pause.setFillColor(sf::Color::Black);
 	m_pause.setOrigin(m_pause.getLocalBounds().left + m_pause.getLocalBounds().width / 2, m_pause.getLocalBounds().top + m_pause.getLocalBounds().height / 2);
 
+	m_name.setFont(m_font);
+	m_name.setString("Doodle");
+	m_name.setCharacterSize(40);
+	m_name.setFillColor(sf::Color::Black);
+
 	m_lostScreen.setTexture(m_lostScreenTexture);
 	m_lostScreen.setOrigin(m_lostScreen.getLocalBounds().left + m_lostScreen.getLocalBounds().width / 2, m_lostScreen.getLocalBounds().top + m_lostScreen.getLocalBounds().height / 2);
 }
 
-void UI::update(sf::View view)
+void UI::update(sf::View view, char* name)
 {
 	m_pause.setPosition(view.getCenter());
 	m_lostScreen.setPosition(view.getCenter());
+
+	m_name.setString(name);
 }
 
 bool UI::restart(sf::RenderWindow& window)

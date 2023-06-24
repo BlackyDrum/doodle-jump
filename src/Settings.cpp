@@ -1,8 +1,12 @@
 #include "../include/Settings.h"
 
-void Settings::settings(bool& showSettings, float& movementSpeed, float& jumpForce, float& featherForce, float& trampolineForce, float& gravity, int& volume, int MaxMemoryHistory, float memoryHistory[], int& memoryIndex, float& projectileFireSpeed)
+void Settings::settings(bool& showSettings, float& movementSpeed, float& jumpForce, float& featherForce, float& trampolineForce, float& gravity, int& volume, int MaxMemoryHistory, float memoryHistory[], int& memoryIndex, float& projectileFireSpeed, char* buf, size_t buf_size)
 {
 	ImGui::Begin("Settings", &showSettings);
+
+    ImGui::InputText("Your Name", buf, buf_size);
+
+    ImGui::NewLine();
 
     if (ImGui::CollapsingHeader("Player Settings"))
     {
@@ -25,7 +29,7 @@ void Settings::settings(bool& showSettings, float& movementSpeed, float& jumpFor
 
     if (ImGui::CollapsingHeader("Assets"))
     {
-        ImGui::SliderInt("Volume", &volume, 0, 100);
+        ImGui::SliderInt("Volume", &volume, 0, 100);        
     }
 
     ImGui::NewLine();
@@ -118,7 +122,11 @@ std::string Settings::readStatus(const std::string& key, std::string fileName)
 }
 #endif
 
-void Settings::deserialize(int& highscore)
+#ifdef _MSC_VER
+#pragma warning(disable : 4996)
+#endif
+
+void Settings::deserialize(int& highscore, char* name)
 {
     std::ifstream settings("game/settings.json");
 
@@ -129,9 +137,15 @@ void Settings::deserialize(int& highscore)
     reader.parse(settings, completeJsonData);
 
     highscore = completeJsonData["Assets"]["highscore"].asInt();
+
+    const char* jsonName = completeJsonData["Assets"]["name"].asCString();
+    if (jsonName)
+        std::strcpy(name, jsonName);
+    else
+        std::strcpy(name, "Doodle");
 }
 
-void Settings::serialize(int highscore)
+void Settings::serialize(int highscore, char name[])
 {
     std::ofstream settings("game/settings.json");
 
@@ -140,6 +154,7 @@ void Settings::serialize(int highscore)
     Json::Value assets, data, root;
 
     assets["highscore"] = highscore;
+    assets["name"] = name;
 
     root["Settings"] = data;
     root["Assets"] = assets;

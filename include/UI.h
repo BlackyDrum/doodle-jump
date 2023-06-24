@@ -12,11 +12,12 @@ public:
 
 	void setup();
 
-	void update(sf::View);
+	void update(sf::View, char*);
 	
 	bool restart(sf::RenderWindow&);
 
 	sf::Text getPause() const { return m_pause; }
+	sf::Text& getName() { return  m_name; }
 	sf::Sprite getLostScreen() const { return m_lostScreen; }
 private:
 	sf::Font m_font;
@@ -25,6 +26,8 @@ private:
 
 	sf::Texture m_lostScreenTexture;
 	sf::Sprite m_lostScreen;
+
+	sf::Text m_name;
 };
 
 #endif

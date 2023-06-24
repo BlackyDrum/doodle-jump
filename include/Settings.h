@@ -8,11 +8,11 @@ class Settings
 public:
 	Settings() = default;
 
-	void settings(bool&, float&, float&, float&, float&, float&, int&, int, float[], int&, float&);
+	void settings(bool&, float&, float&, float&, float&, float&, int&, int, float[], int&, float&, char*, size_t);
 
-	void deserialize(int&);
+	void deserialize(int&, char*);
 
-	void serialize(int);
+	void serialize(int, char[]);
 #ifdef _WIN32
 	float getMemoryUse();
 #else

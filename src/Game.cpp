@@ -28,7 +28,10 @@ void Game::run()
     float memoryHistory[MaxMemoryHistory] = {};
     int memoryIndex = 0;
 
-    settings.deserialize(highscore);
+    const size_t buf_size = 10;
+    char name[buf_size] = "Doodle";
+
+    settings.deserialize(highscore, name);
 
     World world;
     if (!world.loadAssets())
@@ -151,17 +154,19 @@ void Game::run()
                     world.setBrokenPlatformIsFalling(i);
                 }
 
-            }
-
-            ui.update(window.getView());
+            } 
         }
             
+        ui.update(window.getView(), name);
+
         if (gameLost)
         {
             score.getScore().setPosition(window.getView().getCenter().x + SCREEN_WIDTH / 5, window.getView().getCenter().y - SCREEN_HEIGHT / 5.5);
             score.getScore().setCharacterSize(40);
 
             score.getHighScore().setPosition(window.getView().getCenter().x + SCREEN_WIDTH / 5, window.getView().getCenter().y - SCREEN_HEIGHT / 8);
+
+            ui.getName().setPosition(window.getView().getCenter().x + SCREEN_WIDTH / 11, window.getView().getCenter().y - SCREEN_HEIGHT / 12);
 
             if (ui.restart(window))
             {
@@ -183,14 +188,14 @@ void Game::run()
         }
 
         if (showSettings)
-            settings.settings(showSettings, moveSpeed, jumpForce, featherForce, trampolineForce, gravityForce, volume, MaxMemoryHistory, memoryHistory, memoryIndex, projectileFireSpeed);
+            settings.settings(showSettings, moveSpeed, jumpForce, featherForce, trampolineForce, gravityForce, volume, MaxMemoryHistory, memoryHistory, memoryIndex, projectileFireSpeed, name, buf_size);
 
         player.setJumpForce(jumpForce);
         player.setProjectileFireSpeed(projectileFireSpeed);
 
         sound.updateVolume(volume);
        
-        settings.serialize(score.getHighScoreInt());
+        settings.serialize(score.getHighScoreInt(), name);
 
         window.clear();
 
@@ -204,6 +209,7 @@ void Game::run()
         {
             window.draw(ui.getLostScreen());
             window.draw(score.getHighScore());
+            window.draw(ui.getName());
         }
 
         window.draw(score.getScore());
