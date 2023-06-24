@@ -28,7 +28,7 @@ void Game::run()
     float memoryHistory[MaxMemoryHistory] = {};
     int memoryIndex = 0;
 
-    const size_t buf_size = 10;
+    const size_t buf_size = 12;
     char name[buf_size] = "Doodle";
 
     settings.deserialize(highscore, name);
