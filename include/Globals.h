@@ -7,6 +7,8 @@
 #include "../imgui/imgui.h"
 #include "../imgui/imgui-SFML.h"
 
+#include <json/json.h>
+
 #include <iostream>
 #include <string>
 #include <time.h>

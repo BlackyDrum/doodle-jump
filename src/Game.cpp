@@ -14,17 +14,21 @@ void Game::run()
     ImGui::SFML::Init(window);
     sf::Clock delta;
 
+    Settings settings;
+
     const sf::View defaultView = window.getView();
 
     bool showSettings = false, gamePause = false, gameLost = false, lostSoundPlayed = false;
     float moveSpeed = 6, jumpForce = 20.0, projectileFireSpeed = 0.25;
     float gravityForce = 0.6;
     float featherForce = 30.0, trampolineForce = 40.0;
-    int volume = 10;
+    int volume = 10, highscore = 0;
 
     const int MaxMemoryHistory = 100;
     float memoryHistory[MaxMemoryHistory] = {};
     int memoryIndex = 0;
+
+    settings.deserialize(highscore);
 
     World world;
     if (!world.loadAssets())
@@ -37,7 +41,7 @@ void Game::run()
         return;
     player.setup(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4 * -1.0));
 
-    Score score;
+    Score score(highscore);
     if (!score.loadAssets())
         return;
     score.setup();
@@ -51,8 +55,6 @@ void Game::run()
     if (!ui.loadAssets())
         return;
     ui.setup();
-
-    Settings settings;
 
     while (window.isOpen())
     {
@@ -73,7 +75,7 @@ void Game::run()
             }
         }
 
-        ImGui::SFML::Update(window, delta.restart());;
+        ImGui::SFML::Update(window, delta.restart());
 
         if (!gamePause && !gameLost) {
             player.move(moveSpeed);
@@ -84,7 +86,6 @@ void Game::run()
             }
 
             player.update(world.getView());
-            player.setProjectileFireSpeed(projectileFireSpeed);
 
             if (player.checkLose(window.getView()))
             {
@@ -155,42 +156,58 @@ void Game::run()
             ui.update(window.getView());
         }
             
-        if (gameLost && ui.restart(window))
+        if (gameLost)
         {
-            gameLost = false;
-            lostSoundPlayed = false;
+            score.getScore().setPosition(window.getView().getCenter().x + SCREEN_WIDTH / 5, window.getView().getCenter().y - SCREEN_HEIGHT / 5.5);
+            score.getScore().setCharacterSize(40);
 
-            player.setup(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 * -1.0));
-            player.setIsFalling(false);
-            player.setIsJumping(true);
+            score.getHighScore().setPosition(window.getView().getCenter().x + SCREEN_WIDTH / 5, window.getView().getCenter().y - SCREEN_HEIGHT / 8);
 
-            world.setup();
+            if (ui.restart(window))
+            {
+                gameLost = false;
+                lostSoundPlayed = false;
 
-            score.setup();
+                player.setup(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 * -1.0));
+                player.setIsFalling(false);
+                player.setIsJumping(true);
 
-            world.setView(window.getDefaultView());
-            world.getView().move(0, SCREEN_HEIGHT * -1.0);
-            window.setView(world.getView());
+                world.setup();
+
+                score.setup();
+
+                world.setView(window.getDefaultView());
+                world.getView().move(0, SCREEN_HEIGHT * -1.0);
+                window.setView(world.getView());
+            }
         }
 
         if (showSettings)
             settings.settings(showSettings, moveSpeed, jumpForce, featherForce, trampolineForce, gravityForce, volume, MaxMemoryHistory, memoryHistory, memoryIndex, projectileFireSpeed);
 
         player.setJumpForce(jumpForce);
+        player.setProjectileFireSpeed(projectileFireSpeed);
 
         sound.updateVolume(volume);
        
+        settings.serialize(score.getHighScoreInt());
+
         window.clear();
 
         Renderer::draw(window, world.getBackgrounds(), player.getPlayer(), world.getPlatforms(), world.getBrokenPlatforms(), player.getProjectiles(), world.getFeather(), world.getTrampoline());
         //window.draw(player.getBoundingBox());
 
-        window.draw(score.getScore());
         if (gamePause)
             window.draw(ui.getPause());
 
         if (gameLost)
+        {
             window.draw(ui.getLostScreen());
+            window.draw(score.getHighScore());
+        }
+
+        window.draw(score.getScore());
+
 
         ImGui::SFML::Render(window);
 

@@ -23,7 +23,6 @@ void UI::setup()
 void UI::update(sf::View view)
 {
 	m_pause.setPosition(view.getCenter());
-
 	m_lostScreen.setPosition(view.getCenter());
 }
 

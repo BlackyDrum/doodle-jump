@@ -117,3 +117,34 @@ std::string Settings::readStatus(const std::string& key, std::string fileName)
     return "";
 }
 #endif
+
+void Settings::deserialize(int& highscore)
+{
+    std::ifstream settings("game/settings.json");
+
+    Json::Reader reader;
+
+    Json::Value completeJsonData;
+
+    reader.parse(settings, completeJsonData);
+
+    highscore = completeJsonData["Assets"]["highscore"].asInt();
+}
+
+void Settings::serialize(int highscore)
+{
+    std::ofstream settings("game/settings.json");
+
+    Json::StyledWriter writer;
+
+    Json::Value assets, data, root;
+
+    assets["highscore"] = highscore;
+
+    root["Settings"] = data;
+    root["Assets"] = assets;
+
+    settings << writer.write(root);
+
+    settings.close();
+}

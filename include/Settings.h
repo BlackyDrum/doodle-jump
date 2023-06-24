@@ -10,6 +10,9 @@ public:
 
 	void settings(bool&, float&, float&, float&, float&, float&, int&, int, float[], int&, float&);
 
+	void deserialize(int&);
+
+	void serialize(int);
 #ifdef _WIN32
 	float getMemoryUse();
 #else

@@ -6,7 +6,8 @@
 class Score
 {
 public:
-	Score() = default;
+	Score(int highscore)
+		: m_highScoreI{ highscore } {};
 
 	void setup();
 
@@ -14,9 +15,15 @@ public:
 
 	void update(sf::View, int);
 
-	sf::Text getScore() const { return m_score; }
+	sf::Text& getScore() { return m_score; }
+	sf::Text& getHighScore() { return m_highscore; }
+	int getHighScoreInt() const { return m_highScoreI; }
+
+	void setHighScore(int highscore) { m_highScoreI = highscore; }
 private:
-	sf::Text m_score;
+	sf::Text m_score, m_highscore;
+	
+	int m_highScoreI;
 
 	sf::Font m_font;
 };
