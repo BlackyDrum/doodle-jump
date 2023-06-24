@@ -20,7 +20,7 @@ void Game::run()
     float moveSpeed = 6, jumpForce = 20.0, projectileFireSpeed = 0.25;
     float gravityForce = 0.6;
     float featherForce = 30.0, trampolineForce = 40.0;
-    int volume = 25;
+    int volume = 10;
 
     const int MaxMemoryHistory = 100;
     float memoryHistory[MaxMemoryHistory] = {};
