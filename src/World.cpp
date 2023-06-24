@@ -13,6 +13,10 @@ World::World()
 	m_brokenPlatformRect = sf::IntRect(0, 72, 61, 16);
 	m_brokenPlatformDownRect = sf::IntRect(0, 115, 61,31);
 
+	m_movablePlatformRect = sf::IntRect(0,18,58,16);
+	m_movablePlatform.setTexture(m_tiles);
+	m_movablePlatform.setTextureRect(m_movablePlatformRect);
+
 	m_trampolineDefaultRect = sf::IntRect(187,97,37,15);
 	m_trampolineJumpedRect = sf::IntRect(148,93,37,19);
 	m_trampoline.setTexture(m_tiles);
@@ -21,6 +25,9 @@ World::World()
 	m_platformGap = 100;
 	m_trampolineSpawnRate = 10;
 
+	m_movablePlatformDirection = LEFT;
+	m_movablePlatformSpawnRate = 5;
+	m_movablePlatformSpeed = 20;
 }
 
 World::~World()
@@ -87,6 +94,7 @@ void World::setup()
 
 	m_feather.setPosition(1000, 1000);
 	m_trampoline.setPosition(1000, 1000);
+	m_movablePlatform.setPosition(1000, 1000);
 }
 
 void World::moveBackground()
@@ -134,6 +142,14 @@ void World::update(sf::Sprite player)
 		}
 	}
 
+	// Move movable platform left and right
+	if (m_movablePlatform.getPosition().x <= 0)
+		m_movablePlatformDirection = RIGHT;
+	else if (m_movablePlatform.getPosition().x + m_movablePlatform.getTextureRect().width >= SCREEN_WIDTH)
+		m_movablePlatformDirection = LEFT;
+
+	m_movablePlatform.setPosition(m_movablePlatform.getPosition().x + (m_movablePlatformSpeed * m_movablePlatformDirection == LEFT ? -1 : 1), m_movablePlatform.getPosition().y);
+
 	createPlatforms(player);
 
 	moveBrokenPlatformDown();
@@ -155,7 +171,7 @@ void World::moveBrokenPlatformDown()
 
 void World::createPlatforms(sf::Sprite player)
 {
-	m_platformGap = rand() % 100 + 100;
+	m_platformGap = rand() % 50 + 100;
 
 	// Create normal platforms
 	if (player.getPosition().y - SCREEN_HEIGHT / 2 < m_highestPlatformPosition)
@@ -209,6 +225,12 @@ void World::createPlatforms(sf::Sprite player)
 
 		m_brokenPlatformIsFalling.push_back(false);
 		m_brokenPlatforms.push_back(p);
+	}
+
+	// Move movable platform
+	if (m_movablePlatform.getPosition().y - SCREEN_HEIGHT * m_movablePlatformSpawnRate > player.getPosition().y)
+	{
+		m_movablePlatform.setPosition(SCREEN_WIDTH / 2, m_highestPlatformPosition - m_platformGap / 2);
 	}
 }
 

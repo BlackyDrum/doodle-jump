@@ -155,6 +155,14 @@ void Game::run()
                 }
 
             } 
+
+            if (Collision::checkTileCollision(player, world.getMovablePlatform()))
+            {
+                player.setIsJumping(true);
+                player.setIsFalling(false);
+
+                sound.playJumpSound();
+            }
         }
             
         ui.update(window.getView(), name);
@@ -199,7 +207,7 @@ void Game::run()
 
         window.clear();
 
-        Renderer::draw(window, world.getBackgrounds(), player.getPlayer(), world.getPlatforms(), world.getBrokenPlatforms(), player.getProjectiles(), world.getFeather(), world.getTrampoline());
+        Renderer::draw(window, world.getBackgrounds(), player.getPlayer(), world.getPlatforms(), world.getBrokenPlatforms(), player.getProjectiles(), world.getFeather(), world.getTrampoline(), world.getMovablePlatform());
         //window.draw(player.getBoundingBox());
 
         if (gamePause)
@@ -213,7 +221,6 @@ void Game::run()
         }
 
         window.draw(score.getScore());
-
 
         ImGui::SFML::Render(window);
 

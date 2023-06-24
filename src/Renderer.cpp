@@ -1,6 +1,6 @@
 #include "../include/Renderer.h"
 
-void Renderer::draw(sf::RenderWindow& window, std::pair<sf::Sprite, sf::Sprite> backgrounds, sf::Sprite player, std::vector<Platform*> platforms, std::vector<Platform*> brokenPlatforms, std::vector<sf::Sprite*> projectiles, sf::Sprite feather, sf::Sprite trampoline)
+void Renderer::draw(sf::RenderWindow& window, std::pair<sf::Sprite, sf::Sprite> backgrounds, sf::Sprite player, std::vector<Platform*> platforms, std::vector<Platform*> brokenPlatforms, std::vector<sf::Sprite*> projectiles, sf::Sprite feather, sf::Sprite trampoline, sf::Sprite movablePlatform)
 {
 	window.draw(backgrounds.first);
 	window.draw(backgrounds.second);
@@ -17,5 +17,8 @@ void Renderer::draw(sf::RenderWindow& window, std::pair<sf::Sprite, sf::Sprite> 
 
 	window.draw(trampoline);
 
+	window.draw(movablePlatform);
+
 	window.draw(player);
+
 }

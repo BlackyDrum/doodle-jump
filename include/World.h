@@ -30,6 +30,7 @@ public:
 	std::pair<sf::Sprite, sf::Sprite> getBackgrounds() const { return m_backgrounds; }
 	sf::Sprite getFeather() const { return m_feather; }
 	sf::Sprite getTrampoline() const { return m_trampoline; }
+	sf::Sprite getMovablePlatform() const { return m_movablePlatform; }
 	sf::View& getView() { return m_view; }
 	std::vector<Platform*> getPlatforms() const { return m_platforms; }
 	std::vector<Platform*> getBrokenPlatforms() const { return m_brokenPlatforms; }
@@ -43,10 +44,12 @@ private:
 
 	sf::Sprite m_feather;
 	sf::Sprite m_trampoline;
+	sf::Sprite m_movablePlatform;
 
 	sf::IntRect m_platformRect, m_brokenPlatformRect, m_brokenPlatformDownRect;
 	sf::IntRect m_featherDefaultRect, m_featherJumpedRect;
 	sf::IntRect m_trampolineDefaultRect, m_trampolineJumpedRect;
+	sf::IntRect m_movablePlatformRect;
 
 	sf::View m_view;
 
@@ -58,7 +61,16 @@ private:
 	float m_highestPlatformPosition, m_highestBrokenPlatformPosition;
 
 	int m_platformGap;
-	int m_trampolineSpawnRate;
+	int m_trampolineSpawnRate, m_movablePlatformSpawnRate;
+	int m_movablePlatformSpeed;
+
+	enum Direction
+	{
+		LEFT,
+		RIGHT
+	};
+
+	Direction m_movablePlatformDirection;
 
 	void createPlatforms(sf::Sprite);
 
