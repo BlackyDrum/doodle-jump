@@ -68,6 +68,7 @@ void World::setup()
 		m_brokenPlatformIsFalling.erase(m_brokenPlatformIsFalling.begin() + i);
 	}
 
+	// Initialize 20 platforms at the start of the game
 	for (int i = 0; i < 20; i++)
 	{
 		Platform* p = new Platform;
@@ -92,6 +93,7 @@ void World::setup()
 
 	m_view.move(0, SCREEN_HEIGHT / 2 * -1.0);
 
+	// Move tiles away at start of the game
 	m_feather.setPosition(1000, 1000);
 	m_trampoline.setPosition(1000, 1000);
 	m_movablePlatform.setPosition(1000, 1000);
@@ -99,8 +101,7 @@ void World::setup()
 
 void World::moveBackground()
 {
-	//m_view.setCenter(m_view.getCenter().x, player.getPosition().y);
-
+	// If one background sprite is out of screen, move it up
 	if (m_backgrounds.first.getPosition().y > m_view.getCenter().y + SCREEN_HEIGHT / 2)
 		m_backgrounds.first.setPosition(0, m_backgrounds.second.getPosition().y - SCREEN_HEIGHT);
 
@@ -123,6 +124,7 @@ void World::updateView(sf::RenderWindow& window, Player& player)
 
 void World::update(sf::Sprite player)
 {
+	// Delete platforms if they are out of screen
 	for (int i = 0; i < m_platforms.size(); i++)
 	{
 		if (player.getPosition().y < m_platforms[i]->getPlatform().getPosition().y - SCREEN_HEIGHT / 2)
@@ -132,6 +134,7 @@ void World::update(sf::Sprite player)
 		}
 	}
 
+	// Delete broken platforms if they are out of screen
 	for (int i = 0; i < m_brokenPlatforms.size(); i++)
 	{
 		if (player.getPosition().y < m_brokenPlatforms[i]->getPlatform().getPosition().y - SCREEN_HEIGHT / 2)
@@ -227,7 +230,7 @@ void World::createPlatforms(sf::Sprite player)
 		m_brokenPlatforms.push_back(p);
 	}
 
-	// Move movable platform
+	// Move movable platform up
 	if (m_movablePlatform.getPosition().y - SCREEN_HEIGHT * m_movablePlatformSpawnRate > player.getPosition().y)
 	{
 		m_movablePlatform.setPosition(SCREEN_WIDTH / 2, m_highestPlatformPosition - m_platformGap / 2);

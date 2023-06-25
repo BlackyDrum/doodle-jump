@@ -25,9 +25,11 @@ void Score::update(sf::View view, int score)
 {
 	int offset = 5;
 
+	// Position the text top left of the screen
 	m_score.setPosition(offset, view.getCenter().y - SCREEN_HEIGHT / 2 - offset);
 	m_score.setString(std::to_string(score * -1));
 
+	// Update highscore
 	if (score * -1 > m_highScoreI)
 	{
 		m_highScoreI = score * -1;

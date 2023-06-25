@@ -40,8 +40,10 @@ void Player::update(sf::View view)
 		m_velocityDown = 0;
 	}
 
+	// Player's bounding box is a seperate rectangle, which follows the player's sprite
 	m_boundingBox.setPosition(m_player.getPosition().x + m_player.getTextureRect().width / 4, m_player.getPosition().y + m_player.getTextureRect().height);
 
+	// Check if player is out of the screen
 	if (m_player.getPosition().x + m_player.getTextureRect().width <= 0)
 		m_player.setPosition(SCREEN_WIDTH, m_player.getPosition().y);
 	else if (m_player.getPosition().x > SCREEN_WIDTH)
