@@ -23,6 +23,10 @@ You have the option to modify some of the game options/assets such as jump force
   <td>Shoot</td>
  </tr>
   <tr>
+  <td>Enter</td>
+  <td>Settings</td>
+ </tr>
+  <tr>
   <td>Escape</td>
   <td>Pause</td>
  </tr>
