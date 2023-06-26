@@ -2,7 +2,7 @@
 This is a C++ project that implements a clone of the popular game Doodle Jump using SFML.<br>
 You have the option to modify some of the game options/assets such as jump force, gravity, etc. with ImGui.
 
-CURRENTLY IN REMAKE
+!! CURRENTLY IN REMAKE !!
 
 ## Controls
 <table>
