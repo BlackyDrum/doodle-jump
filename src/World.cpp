@@ -234,6 +234,12 @@ void World::createPlatforms(sf::Sprite player)
 	if (m_movablePlatform.getPosition().y - SCREEN_HEIGHT * m_movablePlatformSpawnRate > player.getPosition().y)
 	{
 		m_movablePlatform.setPosition(SCREEN_WIDTH / 2, m_highestPlatformPosition - m_platformGap / 2);
+
+		// When movable platform is moved, delete the last normal platform
+		delete m_platforms[m_platforms.size() - 1];
+		m_platforms.erase(m_platforms.begin() + m_platforms.size() - 1);
+
+		m_highestPlatformPosition -= m_platformGap;
 	}
 }
 
