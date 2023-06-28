@@ -190,6 +190,36 @@ void World::createPlatforms(sf::Sprite player)
 
 		m_platforms.push_back(p);
 
+		// Create broken platforms
+		if (player.getPosition().y - SCREEN_HEIGHT / 2 < m_highestBrokenPlatformPosition)
+		{
+			Platform* p = new Platform;
+			p->getPlatform().setTexture(m_tiles);
+			p->getPlatform().setTextureRect(m_brokenPlatformRect);
+
+			float x = rand() % (SCREEN_WIDTH - p->getPlatform().getTextureRect().width);
+			p->setup(sf::Vector2f(x, m_highestPlatformPosition));
+
+			for (int i = 0; i < m_platforms.size(); i++)
+			{
+				if (m_platforms[i]->getPlatform().getGlobalBounds().intersects(p->getPlatform().getGlobalBounds()))
+				{
+					delete p;
+					return;
+				}
+			}
+
+			m_highestBrokenPlatformPosition = m_highestBrokenPlatformPosition - SCREEN_HEIGHT;
+
+			m_brokenPlatformIsFalling.push_back(false);
+			m_brokenPlatforms.push_back(p);
+
+			delete m_platforms[m_platforms.size() - 1];
+			m_platforms.erase(m_platforms.begin() + m_platforms.size() - 1);
+
+			return;
+		}
+
 		// Move feather to new platform
 		int offset = 10;
 		if (m_feather.getPosition().y - SCREEN_HEIGHT > player.getPosition().y)
@@ -203,31 +233,6 @@ void World::createPlatforms(sf::Sprite player)
 			m_trampoline.setPosition(p->getPlatform().getPosition().x + offset, p->getPlatform().getPosition().y - offset);
 			m_trampoline.setTextureRect(m_trampolineDefaultRect);
 		}
-	}
-
-	// Create broken platforms
-	if (player.getPosition().y - SCREEN_HEIGHT / 2 < m_highestBrokenPlatformPosition)
-	{
-		Platform* p = new Platform;
-		p->getPlatform().setTexture(m_tiles);
-		p->getPlatform().setTextureRect(m_brokenPlatformRect);
-
-		float x = rand() % (SCREEN_WIDTH - p->getPlatform().getTextureRect().width);
-		p->setup(sf::Vector2f(x, m_highestPlatformPosition));
-
-		for (int i = 0; i < m_platforms.size(); i++)
-		{
-			if (m_platforms[i]->getPlatform().getGlobalBounds().intersects(p->getPlatform().getGlobalBounds()))
-			{
-				delete p;
-				return;
-			}
-		}
-
-		m_highestBrokenPlatformPosition = m_highestBrokenPlatformPosition - SCREEN_HEIGHT;
-
-		m_brokenPlatformIsFalling.push_back(false);
-		m_brokenPlatforms.push_back(p);
 	}
 
 	// Move movable platform up
