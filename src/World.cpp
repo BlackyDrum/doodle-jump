@@ -53,6 +53,8 @@ void World::setup()
 {
 	m_highestPlatformPosition = 0;
 
+	const int SCREEN_OUT = MAXINT;
+
 	int size = m_platforms.size();
 	for (int i = size - 1; i >= 0; i--)
 	{
@@ -94,9 +96,9 @@ void World::setup()
 	m_view.move(0, SCREEN_HEIGHT / 2 * -1.0);
 
 	// Move tiles away at start of the game
-	m_feather.setPosition(1000, 1000);
-	m_trampoline.setPosition(1000, 1000);
-	m_movablePlatform.setPosition(1000, 1000);
+	m_feather.setPosition(SCREEN_OUT, SCREEN_OUT);
+	m_trampoline.setPosition(SCREEN_OUT, SCREEN_OUT);
+	m_movablePlatform.setPosition(SCREEN_OUT, SCREEN_OUT);
 }
 
 void World::moveBackground()
