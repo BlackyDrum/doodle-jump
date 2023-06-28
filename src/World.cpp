@@ -188,12 +188,9 @@ void World::createPlatforms(sf::Sprite player)
 
 		m_highestPlatformPosition = m_highestPlatformPosition - m_platformGap;
 
-		m_platforms.push_back(p);
-
 		// Create broken platforms
 		if (player.getPosition().y - SCREEN_HEIGHT / 2 < m_highestBrokenPlatformPosition)
 		{
-			Platform* p = new Platform;
 			p->getPlatform().setTexture(m_tiles);
 			p->getPlatform().setTextureRect(m_brokenPlatformRect);
 
@@ -214,11 +211,10 @@ void World::createPlatforms(sf::Sprite player)
 			m_brokenPlatformIsFalling.push_back(false);
 			m_brokenPlatforms.push_back(p);
 
-			delete m_platforms[m_platforms.size() - 1];
-			m_platforms.erase(m_platforms.begin() + m_platforms.size() - 1);
-
 			return;
 		}
+
+		m_platforms.push_back(p);
 
 		// Move feather to new platform
 		int offset = 10;
