@@ -180,10 +180,8 @@ void World::createPlatforms(sf::Sprite player)
 	if (player.getPosition().y - SCREEN_HEIGHT / 2 < m_highestPlatformPosition)
 	{
 		Platform* p = new Platform;
-		p->getPlatform().setTexture(m_tiles);
-		p->getPlatform().setTextureRect(m_platformRect);
 
-		float x = rand() % (SCREEN_WIDTH - p->getPlatform().getTextureRect().width);
+		float x = rand() % (SCREEN_WIDTH - m_platformRect.width);
 		p->setup(sf::Vector2f(x, m_highestPlatformPosition - m_platformGap));
 
 		m_highestPlatformPosition = m_highestPlatformPosition - m_platformGap;
@@ -213,6 +211,9 @@ void World::createPlatforms(sf::Sprite player)
 
 			return;
 		}
+
+		p->getPlatform().setTexture(m_tiles);
+		p->getPlatform().setTextureRect(m_platformRect);
 
 		m_platforms.push_back(p);
 
