@@ -53,7 +53,7 @@ void World::setup()
 {
 	m_highestPlatformPosition = 0;
 
-	const int SCREEN_OUT = MAXINT;
+	const int SCREEN_OUT = std::numeric_limits<int>::max();;
 
 	int size = m_platforms.size();
 	for (int i = size - 1; i >= 0; i--)

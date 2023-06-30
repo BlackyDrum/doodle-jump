@@ -16,6 +16,7 @@
 #include <fstream>
 #include <math.h>
 #include <memory>
+#include <limits>
 
 #ifdef _WIN32
 #include <Windows.h>
