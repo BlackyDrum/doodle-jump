@@ -12,7 +12,10 @@ void Game::run()
     srand(time(NULL));
 
     ImGui::SFML::Init(window);
-    sf::Clock delta, serializeClock;
+    sf::Clock delta;
+
+    sf::Clock serializeClock;
+    float serializeInterval = 2.0;
 
     Settings settings;
 
@@ -204,8 +207,8 @@ void Game::run()
         sound.updateVolume(volume);
        
 
-        // Serialize current settings/highscore every 5 seconds
-        if (serializeClock.getElapsedTime().asSeconds() > 5.0) {
+        // Serialize current settings/highscore every 'serializeInterval' seconds
+        if (serializeClock.getElapsedTime().asSeconds() > serializeInterval) {
             settings.serialize(score.getHighScoreInt(), name);
             serializeClock.restart();
         }
